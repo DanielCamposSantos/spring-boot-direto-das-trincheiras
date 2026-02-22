@@ -15,15 +15,16 @@ import java.util.List;
 public interface AnimeMapper {
     AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
+    Anime toAnime(AnimePostRequest postRequest);
+
+    Anime toAnime(AnimePutRequest request);
+
     List<AnimeGetResponse> toAnimeGetResponseList(List<Anime> anime);
 
     AnimeGetResponse toAnimeGetResponse(Anime anime);
 
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1,100_000))")
-    AnimePostResponse toAnimePostResponse(AnimePostRequest postRequest);
-
-    Anime toAnime(AnimePostRequest postRequest);
+    AnimePostResponse toAnimePostResponse(Anime anime);
 
 
-    Anime toAnime(AnimePutRequest request);
 }

@@ -18,10 +18,10 @@ public interface ProducerMapper {
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1,100_000))")
     Producer toProducer(ProducerPostRequest postRequest);
 
+    Producer toProducer(ProducerPutRequest request);
 
     ProducerGetResponse toProducerGetResponse(Producer producer);
 
     List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producer);
 
-    Producer toProducer(ProducerPutRequest request);
 }
