@@ -2,6 +2,7 @@ package io.github.danielcampossantos.mapper;
 
 import io.github.danielcampossantos.domain.Anime;
 import io.github.danielcampossantos.requests.AnimePostRequest;
+import io.github.danielcampossantos.requests.AnimePutRequest;
 import io.github.danielcampossantos.response.AnimeGetResponse;
 import io.github.danielcampossantos.response.AnimePostResponse;
 import org.mapstruct.Mapper;
@@ -21,5 +22,8 @@ public interface AnimeMapper {
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1,100_000))")
     AnimePostResponse toAnimePostResponse(AnimePostRequest postRequest);
 
+    Anime toAnime(AnimePostRequest postRequest);
 
+
+    Anime toAnime(AnimePutRequest request);
 }

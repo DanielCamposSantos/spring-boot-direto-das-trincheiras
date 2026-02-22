@@ -3,6 +3,7 @@ package io.github.danielcampossantos.controller;
 import io.github.danielcampossantos.domain.Anime;
 import io.github.danielcampossantos.mapper.AnimeMapper;
 import io.github.danielcampossantos.requests.AnimePostRequest;
+import io.github.danielcampossantos.requests.AnimePutRequest;
 import io.github.danielcampossantos.response.AnimeGetResponse;
 import io.github.danielcampossantos.response.AnimePostResponse;
 import lombok.extern.log4j.Log4j2;
@@ -57,7 +58,7 @@ public class AnimeController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-        log.debug("Deleting anime by id '{}'", id);
+        log.debug("Request to delete anime by id '{}'", id);
 
         var animeToBeDeleted = Anime.getAnimes().stream()
                 .filter(anime -> anime.getId().equals(id))
@@ -69,5 +70,22 @@ public class AnimeController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+        log.debug("Request to update anime by id '{}'", request);
+        var animeToBeRemoved = Anime.getAnimes().stream()
+                .filter(anime -> anime.getId().equals(request.id()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+
+        var animeUpdated = MAPPER.toAnime(request);
+
+        Anime.getAnimes().remove(animeToBeRemoved);
+        Anime.getAnimes().add(animeUpdated);
+
+        return ResponseEntity.noContent().build();
+
+
+    }
 
 }

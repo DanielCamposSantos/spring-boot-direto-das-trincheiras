@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("producers")
 public class ProducerController {
 
-    private static final ProducerMapper MAPPER = ProducerMapper.INSTACE;
+    private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
     @GetMapping
     public ResponseEntity<List<ProducerGetResponse>> listAll(@RequestParam(required = false) String name) {
