@@ -2,6 +2,7 @@ package io.github.danielcampossantos.mapper;
 
 import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.requests.ProducerPostRequest;
+import io.github.danielcampossantos.requests.ProducerPutRequest;
 import io.github.danielcampossantos.response.ProducerGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,4 +22,6 @@ public interface ProducerMapper {
     ProducerGetResponse toProducerGetResponse(Producer producer);
 
     List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producer);
+
+    Producer toProducer(ProducerPutRequest request);
 }

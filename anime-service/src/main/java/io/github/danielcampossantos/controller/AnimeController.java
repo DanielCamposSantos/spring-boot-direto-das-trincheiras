@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("animes")
 @Log4j2
 public class AnimeController {
-
+    private static final String ANIME_NOT_FOUND = "Anime not found";
     private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
 
     @GetMapping
@@ -43,7 +43,7 @@ public class AnimeController {
                 .filter(anime -> anime.getId().equals(id))
                 .findFirst()
                 .map(MAPPER::toAnimeGetResponse)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ANIME_NOT_FOUND));
 
         return ResponseEntity.ok(animeGetResponse);
 
@@ -63,7 +63,7 @@ public class AnimeController {
         var animeToBeDeleted = Anime.getAnimes().stream()
                 .filter(anime -> anime.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ANIME_NOT_FOUND));
 
         Anime.getAnimes().remove(animeToBeDeleted);
 
@@ -76,7 +76,7 @@ public class AnimeController {
         var animeToBeRemoved = Anime.getAnimes().stream()
                 .filter(anime -> anime.getId().equals(request.id()))
                 .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, ANIME_NOT_FOUND));
 
         var animeUpdated = MAPPER.toAnime(request);
 

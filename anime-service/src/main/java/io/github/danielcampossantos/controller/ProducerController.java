@@ -1,15 +1,15 @@
 package io.github.danielcampossantos.controller;
 
 
-import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.mapper.ProducerMapper;
 import io.github.danielcampossantos.requests.ProducerPostRequest;
+import io.github.danielcampossantos.requests.ProducerPutRequest;
 import io.github.danielcampossantos.response.ProducerGetResponse;
+import io.github.danielcampossantos.service.ProducerService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,31 +20,27 @@ public class ProducerController {
 
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
+    private ProducerService service;
+
+    public ProducerController() {
+        this.service = new ProducerService();
+    }
+
+
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>> listAll(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<ProducerGetResponse>> findAll(@RequestParam(required = false) String name) {
         log.debug("Request to get list of producers by name '{}'", name);
-        var producers = Producer.getProducers();
 
-        var producerGetResponseList = MAPPER.toProducerGetResponseList(producers);
+        var producers = service.findAll(name);
+        var producerGetResponses = MAPPER.toProducerGetResponseList(producers);
 
-        if (name == null) return ResponseEntity.ok(producerGetResponseList);
-
-        var response = producerGetResponseList.stream()
-                .filter(producer -> producer.name().equalsIgnoreCase(name))
-                .toList();
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(producerGetResponses);
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<ProducerGetResponse> getById(@PathVariable long id) {
+    public ResponseEntity<ProducerGetResponse> findById(@PathVariable long id) {
         log.debug("Request to get producer by id '{}'", id);
-        var producerGetResponse = Producer.getProducers().stream()
-                .filter(producer -> producer.getId().equals(id))
-                .findFirst()
-                .map(MAPPER::toProducerGetResponse)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "producer not found"));
-
+        var producerGetResponse = MAPPER.toProducerGetResponse(service.findByIdOrThrowBadRequest(id));
         return ResponseEntity.ok(producerGetResponse);
 
     }
@@ -56,7 +52,7 @@ public class ProducerController {
 
         var producer = MAPPER.toProducer(producerPostRequest);
 
-        Producer.getProducers().add(producer);
+        service.save(producer);
 
         var response = MAPPER.toProducerGetResponse(producer);
 
@@ -67,14 +63,23 @@ public class ProducerController {
     public ResponseEntity<Void> delete(@PathVariable long id) {
         log.debug("Request to delete producer by id '{}'", id);
 
-        var producerToDelete = Producer.getProducers().stream()
-                .filter(producer -> producer.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "producer not found"));
-
-        Producer.getProducers().remove(producerToDelete);
+        service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
+        log.debug("Request to update producer '{}'", request);
+
+
+        var producerToUpdate = MAPPER.toProducer(request);
+
+        service.update(producerToUpdate);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 
