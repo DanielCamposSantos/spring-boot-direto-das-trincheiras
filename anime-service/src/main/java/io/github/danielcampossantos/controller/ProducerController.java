@@ -2,6 +2,7 @@ package io.github.danielcampossantos.controller;
 
 
 import io.github.danielcampossantos.domain.Producer;
+import io.github.danielcampossantos.mapper.ProducerMapper;
 import io.github.danielcampossantos.requests.ProducerPostRequest;
 import io.github.danielcampossantos.response.ProducerGetResponse;
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 @RequestMapping("producers")
 public class ProducerController {
+
+    private static final ProducerMapper MAPPER = ProducerMapper.INSTACE;
 
     @GetMapping
     public List<Producer> listAll(@RequestParam(required = false) String name) {
@@ -44,19 +47,11 @@ public class ProducerController {
     public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest, @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 
-        var producer = Producer.builder()
-                .id(ThreadLocalRandom.current().nextLong(1, 100_000))
-                .name(producerPostRequest.name())
-                .createdAt(LocalDateTime.now())
-                .build();
+        var producer = MAPPER.toProducer(producerPostRequest);
 
         Producer.getProducers().add(producer);
 
-        var response = ProducerGetResponse.builder()
-                .id(producer.getId())
-                .name(producer.getName())
-                .createdAt(producer.getCreatedAt())
-                .build();
+        var response = MAPPER.toProducerGetResponse(producer);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
