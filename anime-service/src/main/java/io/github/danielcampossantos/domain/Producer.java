@@ -1,18 +1,21 @@
 package io.github.danielcampossantos.domain;
 
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Producer {
+    @EqualsAndHashCode.Include
     private Long id;
+
     private String name;
     private LocalDateTime createdAt;
 
@@ -24,7 +27,7 @@ public class Producer {
         var mappa = Producer.builder().id(1L).name("Mappa").createdAt(LocalDateTime.now()).build();
         var kyotoAnimation = Producer.builder().id(2L).name("Kyoto Animation").createdAt(LocalDateTime.now()).build();
         var madhouse = Producer.builder().id(3L).name("Madhouse").createdAt(LocalDateTime.now()).build();
-        producers.addAll(List.of(mappa,kyotoAnimation,madhouse));
+        producers.addAll(List.of(mappa, kyotoAnimation, madhouse));
     }
 
 }

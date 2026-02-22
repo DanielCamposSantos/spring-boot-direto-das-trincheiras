@@ -22,7 +22,7 @@ public class Anime {
         var ninjaKamui = Anime.builder().id(1L).name("Ninja Kamui").build();
         var kaijuu = Anime.builder().id(2L).name("Kaijuu-8gou").build();
         var kimetsuNoYaiba = Anime.builder().id(3L).name("Kimetsu No Yaiba").build();
-        animes.addAll(List.of(ninjaKamui,kaijuu,kimetsuNoYaiba));
+        animes.addAll(List.of(ninjaKamui, kaijuu, kimetsuNoYaiba));
     }
 
 }
