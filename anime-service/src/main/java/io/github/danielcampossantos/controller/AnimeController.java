@@ -7,6 +7,7 @@ import io.github.danielcampossantos.requests.AnimePutRequest;
 import io.github.danielcampossantos.response.AnimeGetResponse;
 import io.github.danielcampossantos.response.AnimePostResponse;
 import io.github.danielcampossantos.service.AnimeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping("animes")
 @Log4j2
+@RequiredArgsConstructor
+
 public class AnimeController {
-    private static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
+    private final AnimeMapper mapper;
 
     private final AnimeService service;
-
-    public AnimeController() {
-        this.service = new AnimeService();
-    }
 
     @GetMapping
     public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
@@ -32,7 +31,7 @@ public class AnimeController {
 
         var animes = service.findAll(name);
 
-        var animeGetResponses = MAPPER.toAnimeGetResponseList(animes);
+        var animeGetResponses = mapper.toAnimeGetResponseList(animes);
 
         return ResponseEntity.ok(animeGetResponses);
 
@@ -44,7 +43,7 @@ public class AnimeController {
 
         var anime = service.findByIdOrThrowBadRequestException(id);
 
-        var animeGetResponse = MAPPER.toAnimeGetResponse(anime);
+        var animeGetResponse = mapper.toAnimeGetResponse(anime);
 
         return ResponseEntity.ok(animeGetResponse);
     }
@@ -52,11 +51,11 @@ public class AnimeController {
     @PostMapping
     public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest animePostRequest) {
         log.debug("Request to create anime '{}'", animePostRequest);
-        var anime = MAPPER.toAnime(animePostRequest);
+        var anime = mapper.toAnime(animePostRequest);
 
         Anime savedAnime = service.save(anime);
 
-        var response = MAPPER.toAnimePostResponse(savedAnime);
+        var response = mapper.toAnimePostResponse(savedAnime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -74,7 +73,7 @@ public class AnimeController {
     public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
         log.debug("Request to update anime by id '{}'", request);
 
-        var animeUpdated = MAPPER.toAnime(request);
+        var animeUpdated = mapper.toAnime(request);
 
         service.update(animeUpdated);
 

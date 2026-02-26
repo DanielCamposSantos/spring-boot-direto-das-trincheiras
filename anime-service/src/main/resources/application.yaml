@@ -5,8 +5,8 @@ spring:
     error:
       include-stacktrace: on_param
   threads:
-   virtual:
-     enabled: true
+    virtual:
+      enabled: true
   mvc:
     apiversion:
       use:
@@ -18,3 +18,9 @@ server:
   tomcat:
     threads:
       max: 20
+
+logging:
+  level:
+    io.github.danielcampossantos: DEBUG
+
+
