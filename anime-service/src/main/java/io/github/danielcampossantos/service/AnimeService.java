@@ -20,7 +20,7 @@ public class AnimeService {
 
     public Anime findByIdOrThrowBadRequestException(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Producer not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
     }
 
     public Anime save(Anime anime) {

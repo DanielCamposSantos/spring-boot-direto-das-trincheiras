@@ -106,7 +106,7 @@ class ProducerServiceTest {
 
     @Test
     @DisplayName("findById throws ResponseStatusException when producer is not found")
-    @Order(4)
+    @Order(5)
     void findById_ThrowsBadRequestException_WhenProducerIsNotFound() {
         var expectedProducer = Producer.builder().id(99L).build();
 
@@ -129,7 +129,7 @@ class ProducerServiceTest {
 
     @Test
     @DisplayName("save creates a producer")
-    @Order(5)
+    @Order(6)
     void save_CreatesProducer_WhenSuccessful() {
         var producerToSave = Producer.builder()
                 .name("NEW PRODUCER")
@@ -143,35 +143,6 @@ class ProducerServiceTest {
 
         Assertions.assertThat(producerToSave).isEqualTo(savedProducer);
     }
-
-
-    @Test
-    @DisplayName("delete removes a producer")
-    @Order(6)
-    void delete_RemovesProducer_WhenSuccessful() {
-        var producerToDelete = producerList.getLast();
-
-        BDDMockito.when(repository.findById(producerToDelete.getId())).thenReturn(Optional.of(producerToDelete));
-        BDDMockito.doNothing().when(repository).delete(producerToDelete);
-
-        Assertions.assertThatNoException().isThrownBy(()-> service.delete(producerToDelete.getId()));
-
-    }
-
-    @Test
-    @DisplayName("delete throws ResponseStatusException when producer is not found")
-    @Order(6)
-    void delete_ThrowsResponseStatusException_WhenProducerIsNotFound() {
-        var producerToDelete = producerList.getLast();
-        BDDMockito.when(repository.findById(producerToDelete.getId())).thenReturn(Optional.empty());
-
-        Assertions.assertThatException().isThrownBy(()-> service.delete(producerToDelete.getId()))
-                .isInstanceOf(ResponseStatusException.class)
-                .extracting(e -> ((ResponseStatusException) e).getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
-
-    }
-
 
     @Test
     @DisplayName("update updates a producer")
@@ -189,18 +160,42 @@ class ProducerServiceTest {
 
     @Test
     @DisplayName("update ResponseStatusException when producer is not found")
-    @Order(7)
+    @Order(8)
     void update_ThrowsResponseStatusException_WhenProducerIsNotFound() {
         var producerToBeUpdated = producerList.getLast();
 
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThatException().isThrownBy(()-> service.update(producerToBeUpdated))
+        Assertions.assertThatException().isThrownBy(() -> service.update(producerToBeUpdated))
                 .isInstanceOf(ResponseStatusException.class)
                 .extracting(e -> ((ResponseStatusException) e).getStatusCode())
                 .isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
+    @Test
+    @DisplayName("delete removes a producer")
+    @Order(9)
+    void delete_RemovesProducer_WhenSuccessful() {
+        var producerToDelete = producerList.getLast();
 
+        BDDMockito.when(repository.findById(producerToDelete.getId())).thenReturn(Optional.of(producerToDelete));
+        BDDMockito.doNothing().when(repository).delete(producerToDelete);
 
+        Assertions.assertThatNoException().isThrownBy(() -> service.delete(producerToDelete.getId()));
+
+    }
+
+    @Test
+    @DisplayName("delete throws ResponseStatusException when producer is not found")
+    @Order(10)
+    void delete_ThrowsResponseStatusException_WhenProducerIsNotFound() {
+        var producerToDelete = producerList.getLast();
+        BDDMockito.when(repository.findById(producerToDelete.getId())).thenReturn(Optional.empty());
+
+        Assertions.assertThatException().isThrownBy(() -> service.delete(producerToDelete.getId()))
+                .isInstanceOf(ResponseStatusException.class)
+                .extracting(e -> ((ResponseStatusException) e).getStatusCode())
+                .isEqualTo(HttpStatus.BAD_REQUEST);
+
+    }
 }

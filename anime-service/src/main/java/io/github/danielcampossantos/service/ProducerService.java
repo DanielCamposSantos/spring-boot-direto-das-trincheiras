@@ -23,7 +23,7 @@ public class ProducerService {
 
     public Producer findByIdOrThrowBadRequest(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "producer not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Producer not found"));
     }
 
     public Producer save(Producer producer) {

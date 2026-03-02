@@ -105,7 +105,7 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("findById throws ResponseStatusException when anime is not found")
-    @Order(4)
+    @Order(5)
     void findById_ThrowsBadRequestException_WhenAnimeIsNotFound() {
         var expectedAnime = Anime.builder().id(99L).build();
 
@@ -128,10 +128,10 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("save creates a anime")
-    @Order(5)
+    @Order(6)
     void save_CreatesAnime_WhenSuccessful() {
         var animeToSave = Anime.builder()
-                .name("NEW PRODUCER")
+                .name("NEW ANIME")
                 .id(99L)
 
                 .build();
@@ -146,7 +146,7 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("delete removes a anime")
-    @Order(6)
+    @Order(7)
     void delete_RemovesAnime_WhenSuccessful() {
         var animeToDelete = animesList.getLast();
 
@@ -159,7 +159,7 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("delete throws ResponseStatusException when anime is not found")
-    @Order(6)
+    @Order(8)
     void delete_ThrowsResponseStatusException_WhenAnimeIsNotFound() {
         var animeToDelete = animesList.getLast();
         BDDMockito.when(repository.findById(animeToDelete.getId())).thenReturn(Optional.empty());
@@ -174,7 +174,7 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("update updates a anime")
-    @Order(7)
+    @Order(9)
     void update_updatesAnime_WhenSuccessful() {
         var animeToBeUpdated = animesList.getLast();
         animeToBeUpdated.setName("UPDATED PRODUCER NAME");
@@ -188,7 +188,7 @@ class AnimeServiceTest {
 
     @Test
     @DisplayName("update ResponseStatusException when anime is not found")
-    @Order(7)
+    @Order(10)
     void update_ThrowsResponseStatusException_WhenAnimeIsNotFound() {
         var animeToBeUpdated = animesList.getLast();
 

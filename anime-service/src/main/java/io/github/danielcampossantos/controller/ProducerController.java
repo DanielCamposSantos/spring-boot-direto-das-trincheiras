@@ -1,7 +1,6 @@
 package io.github.danielcampossantos.controller;
 
 
-import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.mapper.ProducerMapper;
 import io.github.danielcampossantos.requests.ProducerPostRequest;
 import io.github.danielcampossantos.requests.ProducerPutRequest;
@@ -41,7 +40,6 @@ public class ProducerController {
         log.debug("Request to get producer by id '{}'", id);
         var producerGetResponse = mapper.toProducerGetResponse(service.findByIdOrThrowBadRequest(id));
         return ResponseEntity.ok(producerGetResponse);
-
     }
 
 
