@@ -24,6 +24,7 @@ logging:
     io.github.danielcampossantos: DEBUG
 
 database:
-  url: "localhost:mysql"
-  Username: "mysql"
-  password: "123456"
+  url: "${DB_URL:localhost}:${DB_PORT:3306}"
+  username: "${LOCAL_USERNAME:daniel}"
+  password: "${LOCAL_PASSWORD:123456}"
+

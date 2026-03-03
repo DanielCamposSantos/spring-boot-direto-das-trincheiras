@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class ProducerData {
     @Getter
-    private List<Producer> producers;
+    private final List<Producer> producers;
 
     {
         var mappa = Producer.builder().id(1L).name("Mappa").createdAt(LocalDateTime.now()).build();

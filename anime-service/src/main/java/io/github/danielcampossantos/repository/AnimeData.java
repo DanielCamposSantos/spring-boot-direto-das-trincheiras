@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class AnimeData {
     @Getter
-    private List<Anime> animes;
+    private final List<Anime> animes;
 
     {
         var ninjaKamui = Anime.builder().id(1L).name("Ninja Kamui").build();
