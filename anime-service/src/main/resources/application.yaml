@@ -23,4 +23,7 @@ logging:
   level:
     io.github.danielcampossantos: DEBUG
 
-
+database:
+  url: "localhost:mysql"
+  Username: "mysql"
+  password: "123456"

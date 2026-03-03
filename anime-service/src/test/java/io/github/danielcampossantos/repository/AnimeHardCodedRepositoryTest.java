@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.repository;
 
+import io.github.danielcampossantos.commons.AnimeUtils;
 import io.github.danielcampossantos.domain.Anime;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -22,14 +23,14 @@ class AnimeHardCodedRepositoryTest {
     private AnimeData animeData;
 
     private List<Anime> animeList;
+    
+    @InjectMocks
+    private AnimeUtils animeUtils;
 
 
     @BeforeEach
     void init() {
-        var anime1 = Anime.builder().id(1L).name("ANIME 1").build();
-        var anime2 = Anime.builder().id(2L).name("ANIME 2").build();
-        var anime3 = Anime.builder().id(3L).name("ANIME 3").build();
-        animeList = new ArrayList<>(List.of(anime1, anime2, anime3));
+        animeList = animeUtils.newAnimeList();
     }
 
     @Test
@@ -96,14 +97,11 @@ class AnimeHardCodedRepositoryTest {
     void save_ReturnsSavedAnime_WhenSuccessful() {
         BDDMockito.when(animeData.getAnimes()).thenReturn(animeList);
 
-        var animeToBeSaved = Anime.builder()
-                .name("NEW ANIME")
-                .id(99L)
-                .build();
+        var animeToSave = animeUtils.newAnimeToSave();
 
-        var savedAnime = repository.save(animeToBeSaved);
+        var savedAnime = repository.save(animeToSave);
 
-        Assertions.assertThat(animeToBeSaved).isNotNull().isEqualTo(savedAnime);
+        Assertions.assertThat(animeToSave).isNotNull().isEqualTo(savedAnime);
 
 
     }

@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.service;
 
+import io.github.danielcampossantos.commons.AnimeUtils;
 import io.github.danielcampossantos.domain.Anime;
 import io.github.danielcampossantos.repository.AnimeHardCodedRepository;
 import org.assertj.core.api.Assertions;
@@ -27,15 +28,15 @@ class AnimeServiceTest {
     @Mock
     private AnimeHardCodedRepository repository;
 
+    @InjectMocks
+    private AnimeUtils animeUtils;
+
 
     private List<Anime> animesList;
 
     @BeforeEach
     void init() {
-        var fullMetal = Anime.builder().id(1L).name("Full Metal Brotherhood").build();
-        var steinsGate = Anime.builder().id(2L).name("Steins Gate").build();
-        var mashle = Anime.builder().id(3L).name("Mashle").build();
-        animesList = new ArrayList<>(List.of(fullMetal, steinsGate, mashle));
+       animesList = animeUtils.newAnimeList();
     }
 
     @Test
@@ -130,11 +131,7 @@ class AnimeServiceTest {
     @DisplayName("save creates a anime")
     @Order(6)
     void save_CreatesAnime_WhenSuccessful() {
-        var animeToSave = Anime.builder()
-                .name("NEW ANIME")
-                .id(99L)
-
-                .build();
+        var animeToSave = animeUtils.newAnimeToSave();
 
         BDDMockito.when(repository.save(animeToSave)).thenReturn(animeToSave);
 

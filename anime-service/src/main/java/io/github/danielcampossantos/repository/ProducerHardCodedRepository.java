@@ -1,7 +1,9 @@
 package io.github.danielcampossantos.repository;
 
+import io.github.danielcampossantos.config.Connection;
 import io.github.danielcampossantos.domain.Producer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,10 +11,14 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Log4j2
 public class ProducerHardCodedRepository {
     private final ProducerData producerData;
 
+    private final Connection connection;
+
     public List<Producer> findAll() {
+        log.info("Connection '{}'", connection);
         return producerData.getProducers();
     }
 

@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.repository;
 
+import io.github.danielcampossantos.commons.ProducerUtils;
 import io.github.danielcampossantos.domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -8,6 +9,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,12 +27,12 @@ class ProducerHardCodedRepositoryTest {
 
     private List<Producer> producerList;
 
+    @InjectMocks
+    private ProducerUtils producerUtils;
+
     @BeforeEach
     void init() {
-        var ufotable = Producer.builder().id(1L).name("Ufotable").createdAt(LocalDateTime.now()).build();
-        var witStudio = Producer.builder().id(2L).name("Wit Studio").createdAt(LocalDateTime.now()).build();
-        var studioGhibli = Producer.builder().id(3L).name("Studio Ghibli").createdAt(LocalDateTime.now()).build();
-        producerList = new ArrayList<>(List.of(ufotable, witStudio, studioGhibli));
+        producerList = producerUtils.newProducerList();
     }
 
     @Test
@@ -100,19 +102,15 @@ class ProducerHardCodedRepositoryTest {
     void save_CreatesProducer_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
-        var producerToBeSaved = Producer.builder()
-                .name("NEW PRODUCER")
-                .id(99L)
-                .createdAt(LocalDateTime.now())
-                .build();
+        var producerToSave = producerUtils.newProducerToSave();
 
-        var producer = repository.save(producerToBeSaved);
+        var producer = repository.save(producerToSave);
 
-        Assertions.assertThat(producer).hasNoNullFieldsOrProperties().isEqualTo(producerToBeSaved);
+        Assertions.assertThat(producer).hasNoNullFieldsOrProperties().isEqualTo(producerToSave);
 
         var producerOptional = repository.findById(producer.getId());
 
-        Assertions.assertThat(producerOptional).isPresent().contains(producerToBeSaved);
+        Assertions.assertThat(producerOptional).isPresent().contains(producerToSave);
     }
 
     @Test

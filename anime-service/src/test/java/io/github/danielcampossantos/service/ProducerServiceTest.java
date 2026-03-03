@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.service;
 
+import io.github.danielcampossantos.commons.ProducerUtils;
 import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.repository.ProducerHardCodedRepository;
 import org.assertj.core.api.Assertions;
@@ -28,15 +29,15 @@ class ProducerServiceTest {
     @Mock
     private ProducerHardCodedRepository repository;
 
+    @InjectMocks
+    private ProducerUtils producerUtils;
+
 
     private List<Producer> producerList;
 
     @BeforeEach
     void init() {
-        var ufotable = Producer.builder().id(1L).name("Ufotable").createdAt(LocalDateTime.now()).build();
-        var witStudio = Producer.builder().id(2L).name("Wit Studio").createdAt(LocalDateTime.now()).build();
-        var studioGhibli = Producer.builder().id(3L).name("Studio Ghibli").createdAt(LocalDateTime.now()).build();
-        producerList = new ArrayList<>(List.of(ufotable, witStudio, studioGhibli));
+        producerList = producerUtils.newProducerList();
     }
 
     @Test
@@ -131,11 +132,7 @@ class ProducerServiceTest {
     @DisplayName("save creates a producer")
     @Order(6)
     void save_CreatesProducer_WhenSuccessful() {
-        var producerToSave = Producer.builder()
-                .name("NEW PRODUCER")
-                .id(99L)
-                .createdAt(LocalDateTime.now())
-                .build();
+        var producerToSave = producerUtils.newProducerToSave();
 
         BDDMockito.when(repository.save(producerToSave)).thenReturn(producerToSave);
 
