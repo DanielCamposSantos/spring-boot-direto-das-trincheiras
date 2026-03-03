@@ -17,7 +17,7 @@ public class ConnectionController {
 
 
     @GetMapping
-    public ResponseEntity<Connection> getConnection(){
+    public ResponseEntity<Connection> getConnection() {
         return ResponseEntity.ok(connection);
     }
 }

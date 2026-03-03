@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +22,7 @@ class AnimeHardCodedRepositoryTest {
     private AnimeData animeData;
 
     private List<Anime> animeList;
-    
+
     @InjectMocks
     private AnimeUtils animeUtils;
 

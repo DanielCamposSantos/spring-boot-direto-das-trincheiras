@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +35,7 @@ class AnimeServiceTest {
 
     @BeforeEach
     void init() {
-       animesList = animeUtils.newAnimeList();
+        animesList = animeUtils.newAnimeList();
     }
 
     @Test

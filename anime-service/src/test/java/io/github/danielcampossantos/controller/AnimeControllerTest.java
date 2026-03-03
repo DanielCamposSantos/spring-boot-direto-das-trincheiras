@@ -24,7 +24,7 @@ import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(controllers = AnimeController.class)
-@ComponentScan(basePackages = {"io.github.danielcampossantos","external.dependency"})
+@ComponentScan(basePackages = {"io.github.danielcampossantos", "external.dependency"})
 class AnimeControllerTest {
     private static final String URL = "/animes";
 
