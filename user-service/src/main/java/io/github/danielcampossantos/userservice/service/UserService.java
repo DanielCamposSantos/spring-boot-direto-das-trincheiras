@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
     private final UserHardCodedRepository repository;
 
-    public List<User> findAll() {
-        return repository.findAll();
+    public List<User> findAll(String name) {
+        return name == null ? repository.findAll() : repository.findByName(name);
     }
 }

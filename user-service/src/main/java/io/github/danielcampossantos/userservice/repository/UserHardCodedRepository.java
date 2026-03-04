@@ -15,4 +15,10 @@ public class UserHardCodedRepository {
         return userData.getUsers();
     }
 
+    public List<User> findByName(String name){
+        return userData.getUsers().stream()
+                .filter(user -> user.getFirstName().equals(name))
+                .toList();
+    }
+
 }

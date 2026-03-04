@@ -4,6 +4,7 @@ import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -33,6 +34,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @DisplayName("findAll returns list with all users when successful")
     void findAll_ReturnsListWithAllUsers_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
         Assertions.assertThat(repository.findAll())
@@ -40,6 +42,19 @@ class UserHardCodedRepositoryTest {
                 .isNotNull()
                 .isEqualTo(userList);
 
+    }
+
+    @Test
+    @DisplayName("findByName returns list user found by name when successful ")
+    void findByName_ReturnsListUserFoundByName_WhenSuccessfull() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var userToBeFound = userData.getUsers().getFirst();
+
+        Assertions.assertThat(repository.findByName(userToBeFound.getFirstName()))
+                .isNotEmpty()
+                .isNotNull()
+                .contains(userToBeFound);
     }
 
 }
