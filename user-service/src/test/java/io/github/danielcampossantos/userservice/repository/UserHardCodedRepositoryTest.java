@@ -57,4 +57,15 @@ class UserHardCodedRepositoryTest {
                 .contains(userToBeFound);
     }
 
+    @Test
+    @DisplayName("findByName returns empty list when name is not found")
+    void findByName_ReturnsEmptyList_WhenNameIsNotFound() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var nameNotFound = "name-not-found";
+        Assertions.assertThat(repository.findByName(nameNotFound))
+                .isNotNull()
+                .isEmpty();
+    }
+
 }
