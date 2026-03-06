@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "firstName": "Cezar",
+    "lastName": "Augusto",
+    "email": "cezaraugusto.santos@gmail.com"
+  },
+  {
+    "id": 2,
+    "firstName": "Silvio",
+    "lastName": "Gustavo",
+    "email": "silviogustavo.santos@gmail.com"
+  },
+  {
+    "id": 3,
+    "firstName": "Savio",
+    "lastName": "Machado",
+    "email": "saviomachado.santos@gmail.com"
+  }
+]
