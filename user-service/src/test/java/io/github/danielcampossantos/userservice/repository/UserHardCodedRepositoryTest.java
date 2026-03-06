@@ -105,7 +105,7 @@ class UserHardCodedRepositoryTest {
     void save_SavesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
-        var userToBeSaved = userUtils.newUserToBeSaved();
+        var userToBeSaved = userUtils.newUserToSave();
 
         var user = repository.save(userToBeSaved);
 
@@ -139,7 +139,7 @@ class UserHardCodedRepositoryTest {
 
         var userToBeUpdated = userData.getUsers().getFirst();
 
-        userToBeUpdated = userUtils.newUserToBeUpdated(userToBeUpdated.getId());
+        userToBeUpdated = userUtils.newUserToUpdate(userToBeUpdated.getId());
 
         repository.update(userToBeUpdated);
 

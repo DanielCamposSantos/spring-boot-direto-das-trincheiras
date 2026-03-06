@@ -56,17 +56,17 @@ class UserServiceTest {
     @Test
     @DisplayName("findAll returns list user found by name when successful")
     void findAll_ReturnsListWithUserFoundByName_WhenNameIsNull() {
-        var userToBeFound = userList.getFirst();
-        var expectedUserFound = Collections.singletonList(userToBeFound);
+        var userToFound = userList.getFirst();
+        var expectedUserFound = Collections.singletonList(userToFound);
 
-        BDDMockito.when(repository.findByName(userToBeFound.getFirstName())).thenReturn(expectedUserFound);
+        BDDMockito.when(repository.findByName(userToFound.getFirstName())).thenReturn(expectedUserFound);
 
-        var users = service.findAll(userToBeFound.getFirstName());
+        var users = service.findAll(userToFound.getFirstName());
 
         Assertions.assertThat(users)
                 .isNotEmpty()
                 .isNotNull()
-                .contains(userToBeFound)
+                .contains(userToFound)
                 .isEqualTo(expectedUserFound);
     }
 
@@ -87,16 +87,16 @@ class UserServiceTest {
     @Test
     @DisplayName("findById returns user by id when successful")
     void findById_ReturnsUserById_WhenSuccessful() {
-        var userToBeFound = userList.getFirst();
-        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToBeFound));
+        var userToFound = userList.getFirst();
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToFound));
 
-        var user = service.findByIdOrThrowResponseStatusException(userToBeFound.getId());
+        var user = service.findByIdOrThrowResponseStatusException(userToFound.getId());
 
         Assertions.assertThat(user.getId())
                 .isNotNull()
-                .isEqualTo(userToBeFound.getId());
+                .isEqualTo(userToFound.getId());
 
-        Assertions.assertThat(user.getFirstName()).isEqualTo(userToBeFound.getFirstName());
+        Assertions.assertThat(user.getFirstName()).isEqualTo(userToFound.getFirstName());
     }
 
     @Test
@@ -113,60 +113,66 @@ class UserServiceTest {
                 .isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
-//
-//    @Test
-//    @DisplayName("save saves user when successful")
-//    void save_SavesUser_WhenSuccessful() {
-//        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-//
-//        var userToBeSaved = userUtils.newUserToBeSaved();
-//
-//        var user = repository.save(userToBeSaved);
-//
-//        Assertions.assertThat(user)
-//                .isNotNull()
-//                .isEqualTo(userToBeSaved);
-//
-//        Assertions.assertThat(userData.getUsers())
-//                .isNotEmpty()
-//                .contains(userToBeSaved);
-//    }
-//
-//    @Test
-//    @DisplayName("delete removes user when successful")
-//    void delete_RemovesUser_WhenSuccessful() {
-//        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-//
-//        var userToBeDeleted = userData.getUsers().getFirst();
-//
-//        repository.delete(userToBeDeleted);
-//
-//        Assertions.assertThat(userData.getUsers())
-//                .isNotEmpty()
-//                .doesNotContain(userToBeDeleted);
-//    }
-//
-//    @Test
-//    @DisplayName("udpate udpates user when successful")
-//    void udpate_UpdatesUser_WhenSuccessful() {
-//        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-//
-//        var userToBeUpdated = userData.getUsers().getFirst();
-//
-//        userToBeUpdated = userUtils.newUserToBeUpdated(userToBeUpdated.getId());
-//
-//        repository.update(userToBeUpdated);
-//
-//        Assertions.assertThat(userData.getUsers())
-//                .isNotEmpty()
-//                .contains(userToBeUpdated);
-//
-//        var userOptional = repository.findById(userToBeUpdated.getId());
-//
-//        Assertions.assertThat(userOptional).isPresent();
-//        Assertions.assertThat(userOptional.get().getId()).isEqualTo(userToBeUpdated.getId());
-//    }
-//
+
+    @Test
+    @DisplayName("save creates user when successful")
+    void save_CreatesUser_WhenSuccessful() {
+        var userToSaved = userUtils.newUserToSave();
+
+        BDDMockito.when(repository.save(userToSaved)).thenReturn(userToSaved);
+
+        var user = service.save(userToSaved);
+
+        Assertions.assertThat(user)
+                .isNotNull()
+                .isEqualTo(userToSaved);
+    }
+
+    @Test
+    @DisplayName("delete removes user when successful")
+    void delete_RemovesUser_WhenSuccessful() {
+        var userToDelete = userList.getFirst();
+
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToDelete));
+
+        Assertions.assertThatNoException().isThrownBy(() -> service.delete(userToDelete.getId()));
+    }
+
+    @Test
+    @DisplayName("delete throws ResponseStatusException")
+    void delete_ThrowsResponseStatusException_WhenUserNotFound() {
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+
+        var id = 99L;
+
+        Assertions.assertThatException().isThrownBy(() -> service.delete(id));
+    }
+
+
+    @Test
+    @DisplayName("udpate udpates user when successful")
+    void udpate_UpdatesUser_WhenSuccessful() {
+
+        var userToUpdate = userUtils.newUserToUpdate(userList.getFirst().getId());
+
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToUpdate));
+
+        Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
+
+    }
+    @Test
+    @DisplayName("udpate throws ResponseStatusException")
+    void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
+
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+        var notFoundId = 99L;
+
+        var userToUpdate = userUtils.newUserToUpdate(notFoundId);
+
+        Assertions.assertThatException().isThrownBy(() -> service.update(userToUpdate));
+
+    }
+
 
 
 }

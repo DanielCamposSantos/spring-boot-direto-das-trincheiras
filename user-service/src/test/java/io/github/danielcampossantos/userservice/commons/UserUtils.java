@@ -32,7 +32,7 @@ public class UserUtils {
         return new ArrayList<>(List.of(cezar, silvio, savio));
         
     }
-    public User newUserToBeSaved(){
+    public User newUserToSave(){
         return User.builder()
                 .id(4L)
                 .firstName("New")
@@ -41,7 +41,7 @@ public class UserUtils {
                 .build();
     }
 
-    public User newUserToBeUpdated(Long id){
+    public User newUserToUpdate(Long id){
         return User.builder()
                 .id(id)
                 .firstName("UPDATED FIST NAME")
