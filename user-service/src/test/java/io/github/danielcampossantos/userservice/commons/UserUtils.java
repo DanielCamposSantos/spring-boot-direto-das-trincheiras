@@ -32,4 +32,21 @@ public class UserUtils {
         return new ArrayList<>(List.of(cezar, silvio, savio));
         
     }
+    public User newUserToBeSaved(){
+        return User.builder()
+                .id(4L)
+                .firstName("New")
+                .lastName("User")
+                .email("newUser@email.com")
+                .build();
+    }
+
+    public User newUserToBeUpdated(Long id){
+        return User.builder()
+                .id(id)
+                .firstName("UPDATED FIST NAME")
+                .lastName("UPDATED LAST NAME")
+                .email("UPDATED@email.com")
+                .build();
+    }
 }
