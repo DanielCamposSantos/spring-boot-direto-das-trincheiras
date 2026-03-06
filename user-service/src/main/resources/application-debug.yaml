@@ -1,0 +1,8 @@
+spring:
+  web:
+    error:
+      include-stacktrace: on_param
+logging:
+  level:
+    io.github.danielcampossantos: DEBUG
+

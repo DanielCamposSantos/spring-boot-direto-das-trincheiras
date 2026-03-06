@@ -1,15 +1,17 @@
 package io.github.danielcampossantos.userservice.controller;
 
+import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.mapper.UserMapper;
+import io.github.danielcampossantos.userservice.request.UserPostRequest;
+import io.github.danielcampossantos.userservice.request.UserPutRequest;
 import io.github.danielcampossantos.userservice.response.UserGetResponse;
+import io.github.danielcampossantos.userservice.response.UserPostResponse;
 import io.github.danielcampossantos.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +34,50 @@ public class UserController {
         var response = mapper.toUserGetResponseList(users);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
+        log.debug("Request to return user by first id '{}'", id);
+
+        var user = service.findByIdOrThrowResponseStatusException(id);
+
+        var response = mapper.toUserGetResponse(user);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserPostResponse> save(@RequestBody UserPostRequest userPostRequest) {
+        log.debug("Request to save user '{}'", userPostRequest);
+
+        var user = mapper.toUser(userPostRequest);
+
+        var savedUser = service.save(user);
+
+        var response = mapper.toUserPostResponse(savedUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.debug("Request to delete user by id '{}'", id);
+
+        service.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> udpate(@RequestBody UserPutRequest request) {
+        log.debug("Request to update user '{}'", request);
+
+        var userUpdated = mapper.toUser(request);
+
+        service.update(userUpdated);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

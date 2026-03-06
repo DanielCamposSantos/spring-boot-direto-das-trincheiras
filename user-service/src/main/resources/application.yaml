@@ -4,9 +4,10 @@ spring:
   threads:
     virtual:
       enabled: true
+  web:
+    error:
+      include-stacktrace: never
 server:
   servlet:
     context-path: /
-logging:
-  level:
-    io.github.danielcampossantos: DEBUG
+

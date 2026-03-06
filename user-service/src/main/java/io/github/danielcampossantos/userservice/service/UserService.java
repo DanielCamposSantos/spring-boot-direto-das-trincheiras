@@ -28,17 +28,17 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        var user = assertUserExists(id);
-        repository.delete(user);
+        var userToDelete = findByIdOrThrowResponseStatusException(id);
+        repository.delete(userToDelete);
     }
 
-    public void update(User user) {
-        assertUserExists(user.getId());
-        repository.save(user);
+    public void update(User userToUpdate) {
+        assertUserExists(userToUpdate.getId());
+        repository.update(userToUpdate);
     }
 
-    private User assertUserExists(Long id) {
-        return findByIdOrThrowResponseStatusException(id);
+    private void assertUserExists(Long id) {
+        findByIdOrThrowResponseStatusException(id);
     }
 
 
