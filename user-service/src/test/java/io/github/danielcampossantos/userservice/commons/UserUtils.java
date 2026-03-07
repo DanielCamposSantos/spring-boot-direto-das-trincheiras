@@ -30,18 +30,19 @@ public class UserUtils {
                 .id(3L)
                 .build();
         return new ArrayList<>(List.of(cezar, silvio, savio));
-        
+
     }
-    public User newUserToSave(){
+
+    public User newUserToSave() {
         return User.builder()
-                .id(4L)
+                .id(99L)
                 .firstName("New")
                 .lastName("User")
                 .email("newUser@email.com")
                 .build();
     }
 
-    public User newUserToUpdate(Long id){
+    public User newUserToUpdate(Long id) {
         return User.builder()
                 .id(id)
                 .firstName("UPDATED FIST NAME")

@@ -1,6 +1,5 @@
 package io.github.danielcampossantos.userservice.controller;
 
-import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.mapper.UserMapper;
 import io.github.danielcampossantos.userservice.request.UserPostRequest;
 import io.github.danielcampossantos.userservice.request.UserPutRequest;

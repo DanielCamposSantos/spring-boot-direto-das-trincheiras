@@ -161,7 +161,7 @@ class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /animes/1 throws ResponseStatusException when anime is not found")
+    @DisplayName("DELETE /animes/99 throws ResponseStatusException when anime is not found")
     @Order(8)
     @SneakyThrows
     void delete_ThrowsResponseStatusException_WhenAnimeIsNotFound() {

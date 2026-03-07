@@ -18,9 +18,9 @@ public class UserService {
         return name == null ? repository.findAll() : repository.findByName(name);
     }
 
-    public User findByIdOrThrowResponseStatusException(Long id){
+    public User findByIdOrThrowResponseStatusException(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
     }
 
     public User save(User user) {

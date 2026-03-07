@@ -160,6 +160,7 @@ class UserServiceTest {
         Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
 
     }
+
     @Test
     @DisplayName("udpate throws ResponseStatusException")
     void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
@@ -172,7 +173,6 @@ class UserServiceTest {
         Assertions.assertThatException().isThrownBy(() -> service.update(userToUpdate));
 
     }
-
 
 
 }

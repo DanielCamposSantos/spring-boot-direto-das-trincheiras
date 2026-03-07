@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
-    @Mapping(target = "id", expression= "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(0, 100_00))")
+    @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(0, 100_00))")
     User toUser(UserPostRequest userPostRequest);
 
     User toUser(UserPutRequest userPutRequest);
@@ -22,7 +22,6 @@ public interface UserMapper {
     List<UserGetResponse> toUserGetResponseList(List<User> user);
 
     UserGetResponse toUserGetResponse(User user);
-
 
 
     UserPostResponse toUserPostResponse(User user);

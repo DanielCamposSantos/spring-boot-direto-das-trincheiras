@@ -6,7 +6,6 @@ import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.repository.UserData;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import lombok.SneakyThrows;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
@@ -24,14 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @WebMvcTest(UserController.class)
 @ComponentScan("io.github.danielcampossantos")
@@ -46,11 +37,11 @@ class UserControllerTest {
 
     @Autowired
     private UserUtils userUtils;
-    
-    
+
+
     @MockitoBean
     private UserData userData;
-    
+
     @MockitoSpyBean
     private UserHardCodedRepository repository;
 
@@ -88,7 +79,7 @@ class UserControllerTest {
 
         var name = "Cezar";
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name",name))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -105,7 +96,7 @@ class UserControllerTest {
 
         var name = "x";
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name",name))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -122,7 +113,7 @@ class UserControllerTest {
 
         var id = 1L;
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}",id))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -137,31 +128,93 @@ class UserControllerTest {
 
         var id = 99L;
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}",id))
+        mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
-//
-//    @Test
-//    @DisplayName("POST /v1/users creates user when successful")
-//    @SneakyThrows
-//    void save_CreatesUser_WhenSuccessful() {
-//        var userToSaved = userUtils.newUserToSave();
-//
-//        BDDMockito.when(repository.save(userToSaved)).thenReturn(userToSaved);
-//
-//        var request = fileUtils.readResourceFile("user/post-user-request-200.json");
-//
-//        var response = fileUtils.readResourceFile("user/post-user-response-201.json");
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get(URL)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(request)
-//                )
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(MockMvcResultMatchers.status().isCreated())
-//                .andExpect(MockMvcResultMatchers.content().json(response));
-//    }
 
+    @Test
+    @DisplayName("POST /v1/users creates user when successful")
+    @SneakyThrows
+    void save_CreatesUser_WhenSuccessful() {
+        var request = fileUtils.readResourceFile("user/post-request-user-200.json");
+        var response = fileUtils.readResourceFile("user/post-response-user-201.json");
+
+        var userToSaved = userUtils.newUserToSave();
+
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(userToSaved);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(response));
+    }
+
+    @Test
+    @DisplayName("DELETE /v1/users/1 removes user when successful")
+    @SneakyThrows
+    void delete_RemovesUser_WhenSuccessful() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var id = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+
+    @Test
+    @DisplayName("DELETE /v1/users/99 throws ResponseStatusException")
+    @SneakyThrows
+    void delete_ThrowsResponseStatusException_WhenUserNotFound() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var id = 99L;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+    }
+
+    @Test
+    @DisplayName("PUT /v1/users udpates user when successful")
+    @SneakyThrows
+    void udpate_UpdatesUser_WhenSuccessful() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var request = fileUtils.readResourceFile("user/put-request-user-200.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.put(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+    }
+
+    @Test
+    @DisplayName("udpate throws ResponseStatusException")
+    @SneakyThrows
+    void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var request = fileUtils.readResourceFile("user/put-request-user-404.json");
+
+        mockMvc.perform(MockMvcRequestBuilders.put(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+
+    }
 
 }
