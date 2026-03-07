@@ -7,6 +7,7 @@ import io.github.danielcampossantos.requests.AnimePutRequest;
 import io.github.danielcampossantos.response.AnimeGetResponse;
 import io.github.danielcampossantos.response.AnimePostResponse;
 import io.github.danielcampossantos.service.AnimeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest animePostRequest) {
+    public ResponseEntity<AnimePostResponse> save(@RequestBody @Valid AnimePostRequest animePostRequest) {
         log.debug("Request to create anime '{}'", animePostRequest);
         var anime = mapper.toAnime(animePostRequest);
 
@@ -70,7 +71,7 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody AnimePutRequest request) {
+    public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
         log.debug("Request to update anime by id '{}'", request);
 
         var animeUpdated = mapper.toAnime(request);
