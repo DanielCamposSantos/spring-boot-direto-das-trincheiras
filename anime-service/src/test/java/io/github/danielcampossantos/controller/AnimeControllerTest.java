@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -227,7 +228,7 @@ class AnimeControllerTest {
     @DisplayName("POST /animes creates a anime")
     @Order(11)
     @SneakyThrows
-    void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, String error) {
+    void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> error) {
         var request = fileUtils.readResourceFiles("anime/%s".formatted(fileName));
 
         var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL)
@@ -247,13 +248,54 @@ class AnimeControllerTest {
     }
 
     private static Stream<Arguments> postAnimesBadRequestSource() {
-        var nameRequiredError = "The field 'name' is required";
+        var allRequiredErrors = allRequiredErrors();
 
         return Stream.of(
-                Arguments.of("post-request-anime-blank-field-400.json", nameRequiredError),
-                Arguments.of("post-request-anime-empty-field-400.json", nameRequiredError),
-                Arguments.of("post-request-anime-null-field-400.json", nameRequiredError)
+                Arguments.of("post-request-anime-blank-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-anime-empty-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-anime-null-field-400.json", allRequiredErrors)
         );
     }
+
+    private static List<String> allRequiredErrors() {
+        var nameRequiredError = "The field 'name' is required";
+        return new ArrayList<>(List.of(nameRequiredError));
+    }
+
+    @ParameterizedTest
+    @MethodSource("putAnimesBadRequestSource")
+    @DisplayName("PUT /animes ResponseStatusException when anime is not found")
+    @Order(12)
+    @SneakyThrows
+    void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
+        var request = fileUtils.readResourceFiles("anime/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage())
+                .contains(errors);
+    }
+
+    private static Stream<Arguments> putAnimesBadRequestSource() {
+        var allRequiredErrors = allRequiredErrors();
+        allRequiredErrors.add("The field 'name' is required");
+
+        return Stream.of(
+                Arguments.of("put-request-anime-blank-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-anime-empty-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-anime-null-field-400.json", allRequiredErrors)
+        );
+    }
+
 
 }
