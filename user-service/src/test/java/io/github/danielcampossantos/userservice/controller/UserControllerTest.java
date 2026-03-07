@@ -2,11 +2,16 @@ package io.github.danielcampossantos.userservice.controller;
 
 import io.github.danielcampossantos.userservice.commons.FileUtils;
 import io.github.danielcampossantos.userservice.commons.UserUtils;
+import io.github.danielcampossantos.userservice.commons.ValidationErrors;
 import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.repository.UserData;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import lombok.SneakyThrows;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
 @ComponentScan("io.github.danielcampossantos")
@@ -162,6 +168,7 @@ class UserControllerTest {
     @Test
     @DisplayName("DELETE /v1/users/1 removes user when successful")
     @SneakyThrows
+    @Order(7)
     void delete_RemovesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -176,6 +183,7 @@ class UserControllerTest {
     @Test
     @DisplayName("DELETE /v1/users/99 throws ResponseStatusException")
     @SneakyThrows
+    @Order(8)
     void delete_ThrowsResponseStatusException_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -188,9 +196,10 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("PUT /v1/users udpates user when successful")
+    @DisplayName("PUT /v1/users updates user when successful")
     @SneakyThrows
-    void udpate_UpdatesUser_WhenSuccessful() {
+    @Order(9)
+    void update_UpdatesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var request = fileUtils.readResourceFile("user/put-request-user-200.json");
@@ -205,9 +214,10 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("udpate throws ResponseStatusException")
+    @DisplayName("PUT /v1/users throws ResponseStatusException")
     @SneakyThrows
-    void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
+    @Order(10)
+    void update_ThrowsResponseStatusException_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
@@ -221,5 +231,82 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().reason("User not found"));
 
     }
+
+    @ParameterizedTest
+    @MethodSource("postUserBadRequestSource")
+    @DisplayName("POST /v1/users returns bad request when fields are invalid")
+    @SneakyThrows
+    @Order(11)
+    void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
+        var request = fileUtils.readResourceFile("user/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage())
+                .contains(errors);
+
+
+    }
+
+    private static Stream<Arguments> postUserBadRequestSource() {
+        var allRequiredErrors = ValidationErrors.allRequiredErrors();
+        var emailInvalidError = ValidationErrors.invalidEmailErrors();
+
+        return Stream.of(
+                Arguments.of("post-request-user-empty-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-user-blank-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-user-null-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-user-invalid-email-400.json", emailInvalidError)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("putUserBadRequestSource")
+    @DisplayName("PUT /v1/users throws ResponseStatusException")
+    @SneakyThrows
+    @Order(10)
+    void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
+        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+
+        var request = fileUtils.readResourceFile("user/%s".formatted(fileName));
+
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(URL)
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        var resolvedException = mvcResult.getResolvedException();
+
+        Assertions.assertThat(resolvedException).isNotNull();
+
+        Assertions.assertThat(resolvedException.getMessage()).contains(errors);
+
+    }
+
+    private static Stream<Arguments> putUserBadRequestSource() {
+        var allRequiredErrors = ValidationErrors.allRequiredErrors();
+        allRequiredErrors.add("The field 'id' is can not be null");
+        var emailInvalidError = ValidationErrors.invalidEmailErrors();
+        return Stream.of(
+                Arguments.of("put-request-user-empty-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-user-blank-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-user-null-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-user-invalid-email-400.json", emailInvalidError)
+        );
+    }
+
 
 }

@@ -140,8 +140,8 @@ class UserHardCodedRepositoryTest {
 
     @Test
     @Order(8)
-    @DisplayName("udpate udpates user when successful")
-    void udpate_UpdatesUser_WhenSuccessful() {
+    @DisplayName("update updates user when successful")
+    void update_UpdatesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var userToBeUpdated = userData.getUsers().getFirst();

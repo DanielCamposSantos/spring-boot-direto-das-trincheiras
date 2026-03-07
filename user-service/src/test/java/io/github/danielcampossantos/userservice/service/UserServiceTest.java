@@ -158,8 +158,8 @@ class UserServiceTest {
 
     @Test
     @Order(9)
-    @DisplayName("udpate udpates user when successful")
-    void udpate_UpdatesUser_WhenSuccessful() {
+    @DisplayName("update updates user when successful")
+    void update_UpdatesUser_WhenSuccessful() {
 
         var userToUpdate = userUtils.newUserToUpdate(userList.getFirst().getId());
 
@@ -171,8 +171,8 @@ class UserServiceTest {
 
     @Test
     @Order(10)
-    @DisplayName("udpate throws ResponseStatusException")
-    void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
+    @DisplayName("update throws ResponseStatusException")
+    void update_ThrowsResponseStatusException_WhenUserNotFound() {
 
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
         var notFoundId = 99L;
