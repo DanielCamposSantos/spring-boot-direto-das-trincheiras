@@ -10,4 +10,5 @@ spring:
 server:
   servlet:
     context-path: /
+  port: 8090
 

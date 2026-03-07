@@ -6,9 +6,7 @@ import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.repository.UserData;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,7 @@ import java.util.List;
 
 @WebMvcTest(UserController.class)
 @ComponentScan("io.github.danielcampossantos")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserControllerTest {
     private static final String URL = "/v1/users";
 
@@ -57,6 +56,7 @@ class UserControllerTest {
     @Test
     @DisplayName("GET /v1/users returns list with all users when successful")
     @SneakyThrows
+    @Order(1)
     void findAll_ReturnsListWithAllUsers_WhenNameIsNull() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -72,6 +72,7 @@ class UserControllerTest {
     @Test
     @DisplayName("GET /v1/users?name=Cezar returns list user found by name when successful")
     @SneakyThrows
+    @Order(2)
     void findAll_ReturnsListWithUserFoundByName_WhenNameIsNull() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -89,6 +90,7 @@ class UserControllerTest {
     @Test
     @DisplayName("GET /v1/users?name=x returns empty list when user not found")
     @SneakyThrows
+    @Order(3)
     void findAll_ReturnsEmptyList_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -106,6 +108,7 @@ class UserControllerTest {
     @Test
     @DisplayName("GET /v1/users/1 returns user by id when successful")
     @SneakyThrows
+    @Order(4)
     void findById_ReturnsUserById_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -123,6 +126,7 @@ class UserControllerTest {
     @Test
     @DisplayName("GET /v1/users/99 throws ResponseStatusException")
     @SneakyThrows
+    @Order(5)
     void findById_ThrowsResponseStatusException_WhenUserNotFoundById() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
@@ -136,6 +140,7 @@ class UserControllerTest {
     @Test
     @DisplayName("POST /v1/users creates user when successful")
     @SneakyThrows
+    @Order(6)
     void save_CreatesUser_WhenSuccessful() {
         var request = fileUtils.readResourceFile("user/post-request-user-200.json");
         var response = fileUtils.readResourceFile("user/post-response-user-201.json");

@@ -3,9 +3,7 @@ package io.github.danielcampossantos.userservice.repository;
 import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
@@ -16,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserHardCodedRepositoryTest {
 
     @InjectMocks
@@ -35,6 +34,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(1)
     @DisplayName("findAll returns list with all users when successful")
     void findAll_ReturnsListWithAllUsers_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -46,6 +46,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("findByName returns list user found by name when successful ")
     void findByName_ReturnsListUserFoundByName_WhenSuccessfull() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -59,6 +60,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("findByName returns empty list when name is not found")
     void findByName_ReturnsEmptyList_WhenNameIsNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -70,6 +72,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("findById returns user by id when successful")
     void findById_ReturnsUserById_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -88,6 +91,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("findById returns empty when user not found")
     void findById_ReturnsEmpty_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -101,6 +105,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(6)
     @DisplayName("save saves user when successful")
     void save_SavesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -119,6 +124,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(7)
     @DisplayName("delete removes user when successful")
     void delete_RemovesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
@@ -133,6 +139,7 @@ class UserHardCodedRepositoryTest {
     }
 
     @Test
+    @Order(8)
     @DisplayName("udpate udpates user when successful")
     void udpate_UpdatesUser_WhenSuccessful() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);

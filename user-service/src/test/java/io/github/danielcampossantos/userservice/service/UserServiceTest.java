@@ -4,9 +4,7 @@ import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
@@ -21,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
 
     @InjectMocks
@@ -40,20 +39,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("findAll returns list with all users when successful")
-    void findAll_ReturnsListWithAllUsers_WhenNameIsNull() {
-        BDDMockito.when(repository.findAll()).thenReturn(userList);
-
-        var users = service.findAll(null);
-
-        Assertions.assertThat(repository.findAll())
-                .isNotEmpty()
-                .isNotNull()
-                .isEqualTo(users);
-
-    }
-
-    @Test
+    @Order(1)
     @DisplayName("findAll returns list user found by name when successful")
     void findAll_ReturnsListWithUserFoundByName_WhenNameIsNull() {
         var userToFound = userList.getFirst();
@@ -71,6 +57,22 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(2)
+    @DisplayName("findAll returns list with all users when successful")
+    void findAll_ReturnsListWithAllUsers_WhenNameIsNull() {
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
+
+        var users = service.findAll(null);
+
+        Assertions.assertThat(repository.findAll())
+                .isNotEmpty()
+                .isNotNull()
+                .isEqualTo(users);
+
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("findAll returns empty list when user not found")
     void findAll_ReturnsEmptyList_WhenUserNotFound() {
         var userNotFound = "not-found";
@@ -85,6 +87,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(4)
     @DisplayName("findById returns user by id when successful")
     void findById_ReturnsUserById_WhenSuccessful() {
         var userToFound = userList.getFirst();
@@ -100,6 +103,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(5)
     @DisplayName("findById throws ResponseStatusException")
     void findById_ThrowsResponseStatusException_WhenUserNotFoundById() {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
@@ -115,6 +119,7 @@ class UserServiceTest {
 
 
     @Test
+    @Order(6)
     @DisplayName("save creates user when successful")
     void save_CreatesUser_WhenSuccessful() {
         var userToSaved = userUtils.newUserToSave();
@@ -129,6 +134,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(7)
     @DisplayName("delete removes user when successful")
     void delete_RemovesUser_WhenSuccessful() {
         var userToDelete = userList.getFirst();
@@ -139,6 +145,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(8)
     @DisplayName("delete throws ResponseStatusException")
     void delete_ThrowsResponseStatusException_WhenUserNotFound() {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
@@ -150,6 +157,7 @@ class UserServiceTest {
 
 
     @Test
+    @Order(9)
     @DisplayName("udpate udpates user when successful")
     void udpate_UpdatesUser_WhenSuccessful() {
 
@@ -162,6 +170,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Order(10)
     @DisplayName("udpate throws ResponseStatusException")
     void udpate_ThrowsResponseStatusException_WhenUserNotFound() {
 
