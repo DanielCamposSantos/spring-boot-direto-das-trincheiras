@@ -1,5 +1,10 @@
 package io.github.danielcampossantos.requests;
 
 
-public record ProducerPostRequest(String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ProducerPostRequest(
+        @NotBlank(message = "The field 'name' is required")
+        String name
+) {
 }
