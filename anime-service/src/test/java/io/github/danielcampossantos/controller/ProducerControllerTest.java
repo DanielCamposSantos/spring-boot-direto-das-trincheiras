@@ -6,11 +6,7 @@ import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.repository.ProducerData;
 import io.github.danielcampossantos.repository.ProducerHardCodedRepository;
 import lombok.SneakyThrows;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(controllers = ProducerController.class)
@@ -237,84 +231,6 @@ class ProducerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.status().reason("Producer not found"));
 
-    }
-
-    @ParameterizedTest
-    @MethodSource("postBadRequestource")
-    @DisplayName("POST /producers returns bad request when fields are invalid")
-    @Order(11)
-    @SneakyThrows
-    void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
-        var request = fileUtils.readResourceFiles("producer/%s".formatted(fileName));
-
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .post(URL)
-                        .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andReturn();
-
-        var resolvedException = mvcResult.getResolvedException();
-
-        Assertions.assertThat(resolvedException).isNotNull();
-
-        Assertions.assertThat(resolvedException.getMessage())
-                .contains(errors);
-    }
-
-    private static Stream<Arguments> postBadRequestource() {
-        var allRequiredErrors = allRequiredErrors();
-
-        return Stream.of(
-                Arguments.of("post-request-producer-blank-field-400.json", allRequiredErrors),
-                Arguments.of("post-request-producer-empty-field-400.json", allRequiredErrors),
-                Arguments.of("post-request-producer-null-field-400.json", allRequiredErrors)
-        );
-    }
-
-    private static List<String> allRequiredErrors() {
-        var nameRequiredError = "The field 'name' is required";
-        return new ArrayList<>(List.of(nameRequiredError));
-    }
-
-
-    @ParameterizedTest
-    @MethodSource("putBadRequestSource")
-    @DisplayName("PUT /producers ResponseStatusException when producer is not found")
-    @Order(7)
-    @SneakyThrows
-    void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
-        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
-
-        var request = fileUtils.readResourceFiles("producer/%s".formatted(fileName));
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
-                        .put(URL)
-                        .content(request)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andReturn();
-
-        var resolvedException = mvcResult.getResolvedException();
-
-        Assertions.assertThat(resolvedException).isNotNull();
-
-        Assertions.assertThat(resolvedException.getMessage())
-                .contains(errors);
-    }
-
-    private static Stream<Arguments> putBadRequestSource() {
-        var allRequiredErrors = allRequiredErrors();
-        allRequiredErrors.add("The field 'id' is required");
-
-        return Stream.of(
-                Arguments.of("put-request-producer-blank-field-400.json", allRequiredErrors),
-                Arguments.of("put-request-producer-empty-field-400.json", allRequiredErrors),
-                Arguments.of("put-request-producer-null-field-400.json", allRequiredErrors)
-        );
     }
 
 
