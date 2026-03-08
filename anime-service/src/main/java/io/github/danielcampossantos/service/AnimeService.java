@@ -1,11 +1,10 @@
 package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.domain.Anime;
+import io.github.danielcampossantos.exeption.BadRequestException;
 import io.github.danielcampossantos.repository.AnimeHardCodedRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class AnimeService {
 
     public Anime findByIdOrThrowBadRequestException(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new BadRequestException("Anime not found"));
     }
 
     public Anime save(Anime anime) {

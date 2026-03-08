@@ -2,6 +2,7 @@ package io.github.danielcampossantos.userservice.service;
 
 import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
+import io.github.danielcampossantos.userservice.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -12,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -93,7 +93,7 @@ class UserServiceTest {
         var userToFound = userList.getFirst();
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToFound));
 
-        var user = service.findByIdOrThrowResponseStatusException(userToFound.getId());
+        var user = service.findByIdOrThrowBadRequestException(userToFound.getId());
 
         Assertions.assertThat(user.getId())
                 .isNotNull()
@@ -104,16 +104,16 @@ class UserServiceTest {
 
     @Test
     @Order(5)
-    @DisplayName("findById throws ResponseStatusException")
-    void findById_ThrowsResponseStatusException_WhenUserNotFoundById() {
+    @DisplayName("findById throws BadRequestException")
+    void findById_ThrowsBadRequestException_WhenUserNotFoundById() {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
         var id = 99L;
 
         Assertions.assertThatException()
-                .isThrownBy(() -> service.findByIdOrThrowResponseStatusException(id))
-                .isInstanceOf(ResponseStatusException.class)
-                .extracting(e -> ((ResponseStatusException) e).getStatusCode())
+                .isThrownBy(() -> service.findByIdOrThrowBadRequestException(id))
+                .isInstanceOf(BadRequestException.class)
+                .extracting(e -> ((BadRequestException) e).getStatusCode())
                 .isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
@@ -146,8 +146,8 @@ class UserServiceTest {
 
     @Test
     @Order(8)
-    @DisplayName("delete throws ResponseStatusException")
-    void delete_ThrowsResponseStatusException_WhenUserNotFound() {
+    @DisplayName("delete throws BadRequestException")
+    void delete_ThrowsBadRequestException_WhenUserNotFound() {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
 
         var id = 99L;
@@ -171,8 +171,8 @@ class UserServiceTest {
 
     @Test
     @Order(10)
-    @DisplayName("update throws ResponseStatusException")
-    void update_ThrowsResponseStatusException_WhenUserNotFound() {
+    @DisplayName("update throws BadRequestException")
+    void update_ThrowsBadRequestException_WhenUserNotFound() {
 
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
         var notFoundId = 99L;

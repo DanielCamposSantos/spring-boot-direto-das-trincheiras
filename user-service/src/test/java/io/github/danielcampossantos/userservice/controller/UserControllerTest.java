@@ -130,10 +130,10 @@ class UserControllerTest {
 
 
     @Test
-    @DisplayName("GET /v1/users/99 throws ResponseStatusException")
+    @DisplayName("GET /v1/users/99 throws BadRequestException")
     @SneakyThrows
     @Order(5)
-    void findById_ThrowsResponseStatusException_WhenUserNotFoundById() {
+    void findById_ThrowsBadRequestException_WhenUserNotFoundById() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var id = 99L;
@@ -181,10 +181,10 @@ class UserControllerTest {
 
 
     @Test
-    @DisplayName("DELETE /v1/users/99 throws ResponseStatusException")
+    @DisplayName("DELETE /v1/users/99 throws BadRequestException")
     @SneakyThrows
     @Order(8)
-    void delete_ThrowsResponseStatusException_WhenUserNotFound() {
+    void delete_ThrowsBadRequestException_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var id = 99L;
@@ -214,10 +214,10 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("PUT /v1/users throws ResponseStatusException")
+    @DisplayName("PUT /v1/users throws BadRequestException")
     @SneakyThrows
     @Order(10)
-    void update_ThrowsResponseStatusException_WhenUserNotFound() {
+    void update_ThrowsBadRequestException_WhenUserNotFound() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
@@ -272,7 +272,7 @@ class UserControllerTest {
 
     @ParameterizedTest
     @MethodSource("putUserBadRequestSource")
-    @DisplayName("PUT /v1/users throws ResponseStatusException")
+    @DisplayName("PUT /v1/users throws BadRequestException")
     @SneakyThrows
     @Order(10)
     void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {

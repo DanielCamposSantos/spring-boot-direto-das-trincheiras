@@ -1,11 +1,10 @@
 package io.github.danielcampossantos.userservice.service;
 
 import io.github.danielcampossantos.userservice.domain.User;
+import io.github.danielcampossantos.userservice.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,9 +17,9 @@ public class UserService {
         return name == null ? repository.findAll() : repository.findByName(name);
     }
 
-    public User findByIdOrThrowResponseStatusException(Long id) {
+    public User findByIdOrThrowBadRequestException(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() -> new BadRequestException("User not found"));
     }
 
     public User save(User user) {
@@ -28,7 +27,7 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        var userToDelete = findByIdOrThrowResponseStatusException(id);
+        var userToDelete = findByIdOrThrowBadRequestException(id);
         repository.delete(userToDelete);
     }
 
@@ -38,7 +37,7 @@ public class UserService {
     }
 
     private void assertUserExists(Long id) {
-        findByIdOrThrowResponseStatusException(id);
+        findByIdOrThrowBadRequestException(id);
     }
 
 

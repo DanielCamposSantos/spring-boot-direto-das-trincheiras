@@ -1,12 +1,11 @@
 package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.domain.Producer;
+import io.github.danielcampossantos.exeption.BadRequestException;
 import io.github.danielcampossantos.repository.ProducerHardCodedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class ProducerService {
 
     public Producer findByIdOrThrowBadRequest(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Producer not found"));
+                .orElseThrow(() -> new BadRequestException("Producer not found"));
     }
 
     public Producer save(Producer producer) {

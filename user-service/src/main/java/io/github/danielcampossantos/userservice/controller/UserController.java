@@ -40,7 +40,7 @@ public class UserController {
     public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
         log.debug("Request to return user by first id '{}'", id);
 
-        var user = service.findByIdOrThrowResponseStatusException(id);
+        var user = service.findByIdOrThrowBadRequestException(id);
 
         var response = mapper.toUserGetResponse(user);
 
