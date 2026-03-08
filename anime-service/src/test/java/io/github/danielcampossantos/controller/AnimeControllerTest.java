@@ -257,7 +257,6 @@ class AnimeControllerTest {
         );
     }
 
-
     @ParameterizedTest
     @MethodSource("putAnimesBadRequestSource")
     @DisplayName("PUT /animes ResponseStatusException when anime is not found")
@@ -297,6 +296,5 @@ class AnimeControllerTest {
         var nameRequiredError = "The field 'name' is required";
         return new ArrayList<>(List.of(nameRequiredError));
     }
-
 
 }
