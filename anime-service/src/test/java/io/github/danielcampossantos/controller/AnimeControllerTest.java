@@ -225,13 +225,14 @@ class AnimeControllerTest {
 
     @ParameterizedTest
     @MethodSource("postAnimesBadRequestSource")
-    @DisplayName("POST /animes creates a anime")
+    @DisplayName("POST /animes returns bad request when fields are invalid")
     @Order(11)
     @SneakyThrows
     void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> error) {
         var request = fileUtils.readResourceFiles("anime/%s".formatted(fileName));
 
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URL)
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .post(URL)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -257,6 +258,12 @@ class AnimeControllerTest {
         );
     }
 
+
+    private static List<String> allRequiredErrors() {
+        var nameRequiredError = "The field 'name' is required";
+        return new ArrayList<>(List.of(nameRequiredError));
+    }
+
     @ParameterizedTest
     @MethodSource("putAnimesBadRequestSource")
     @DisplayName("PUT /animes ResponseStatusException when anime is not found")
@@ -265,7 +272,8 @@ class AnimeControllerTest {
     void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
         var request = fileUtils.readResourceFiles("anime/%s".formatted(fileName));
 
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put(URL)
+        var mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                        .put(URL)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -292,9 +300,5 @@ class AnimeControllerTest {
         );
     }
 
-    private static List<String> allRequiredErrors() {
-        var nameRequiredError = "The field 'name' is required";
-        return new ArrayList<>(List.of(nameRequiredError));
-    }
 
 }

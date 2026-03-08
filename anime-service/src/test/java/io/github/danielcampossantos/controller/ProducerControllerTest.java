@@ -239,10 +239,11 @@ class ProducerControllerTest {
 
     }
 
+
     @ParameterizedTest
-    @MethodSource("postBadRequestource")
+    @MethodSource("postProducersBadRequestSources")
     @DisplayName("POST /producers returns bad request when fields are invalid")
-    @Order(11)
+    @Order(5)
     @SneakyThrows
     void save_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
         var request = fileUtils.readResourceFiles("producer/%s".formatted(fileName));
@@ -262,14 +263,14 @@ class ProducerControllerTest {
 
         Assertions.assertThat(resolvedException.getMessage())
                 .contains(errors);
+
     }
 
-    private static Stream<Arguments> postBadRequestource() {
+    private static Stream<Arguments> postProducersBadRequestSources() {
         var allRequiredErrors = allRequiredErrors();
-
         return Stream.of(
-                Arguments.of("post-request-producer-blank-field-400.json", allRequiredErrors),
                 Arguments.of("post-request-producer-empty-field-400.json", allRequiredErrors),
+                Arguments.of("post-request-producer-blank-field-400.json", allRequiredErrors),
                 Arguments.of("post-request-producer-null-field-400.json", allRequiredErrors)
         );
     }
@@ -279,16 +280,14 @@ class ProducerControllerTest {
         return new ArrayList<>(List.of(nameRequiredError));
     }
 
-
     @ParameterizedTest
-    @MethodSource("putBadRequestSource")
-    @DisplayName("PUT /producers ResponseStatusException when producer is not found")
-    @Order(7)
+    @MethodSource("putProducersBadRequestSources")
+    @DisplayName("PUT /producers returns bad request when fields are invalid")
+    @Order(5)
     @SneakyThrows
     void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
-        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
-
         var request = fileUtils.readResourceFiles("producer/%s".formatted(fileName));
+
         var mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .put(URL)
                         .content(request)
@@ -304,18 +303,17 @@ class ProducerControllerTest {
 
         Assertions.assertThat(resolvedException.getMessage())
                 .contains(errors);
+
     }
 
-    private static Stream<Arguments> putBadRequestSource() {
+    private static Stream<Arguments> putProducersBadRequestSources() {
         var allRequiredErrors = allRequiredErrors();
         allRequiredErrors.add("The field 'id' is required");
-
         return Stream.of(
-                Arguments.of("put-request-producer-blank-field-400.json", allRequiredErrors),
                 Arguments.of("put-request-producer-empty-field-400.json", allRequiredErrors),
+                Arguments.of("put-request-producer-blank-field-400.json", allRequiredErrors),
                 Arguments.of("put-request-producer-null-field-400.json", allRequiredErrors)
         );
     }
-
 
 }
