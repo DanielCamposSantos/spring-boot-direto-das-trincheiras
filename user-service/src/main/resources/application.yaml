@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: optional:classpath:.env[.properties]
+
   application:
     name: user-service
   threads:
@@ -7,8 +10,15 @@ spring:
   web:
     error:
       include-stacktrace: never
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_service?useTimeZone=true&serverTimezone=UTC&createDataBaseIfNotExist=true
+    username: ${ENV_ROOT_USER}
+    password: ${ENV_ROOT_PASSWORD}
+
+
 server:
   servlet:
     context-path: /
   port: 8090
+
 
