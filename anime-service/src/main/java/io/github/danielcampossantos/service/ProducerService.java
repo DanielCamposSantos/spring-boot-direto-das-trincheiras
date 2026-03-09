@@ -1,7 +1,7 @@
 package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.domain.Producer;
-import io.github.danielcampossantos.exeption.BadRequestException;
+import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.repository.ProducerHardCodedRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

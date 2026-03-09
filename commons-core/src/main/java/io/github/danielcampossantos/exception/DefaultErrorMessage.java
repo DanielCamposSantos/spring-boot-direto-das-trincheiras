@@ -1,5 +1,4 @@
-package io.github.danielcampossantos.exeption;
-
+package io.github.danielcampossantos.exception;
 
 public record DefaultErrorMessage(
         int status,

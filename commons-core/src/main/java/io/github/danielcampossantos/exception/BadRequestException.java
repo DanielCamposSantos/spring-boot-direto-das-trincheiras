@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.exeption;
+package io.github.danielcampossantos.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

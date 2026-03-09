@@ -1,8 +1,8 @@
 package io.github.danielcampossantos.userservice.service;
 
+import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
-import io.github.danielcampossantos.userservice.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;

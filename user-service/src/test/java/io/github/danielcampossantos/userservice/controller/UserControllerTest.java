@@ -136,11 +136,14 @@ class UserControllerTest {
     void findById_ThrowsBadRequestException_WhenUserNotFoundById() {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
+        var response = fileUtils.readResourceFile("user/get-user-by-id-400.json");
+
         var id = 99L;
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content().json(response));
     }
 
     @Test
@@ -188,11 +191,14 @@ class UserControllerTest {
         BDDMockito.when(userData.getUsers()).thenReturn(userList);
 
         var id = 99L;
+        var response = fileUtils.readResourceFile("user/delete-user-by-id-400.json");
+
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
+
     }
 
     @Test
@@ -222,13 +228,15 @@ class UserControllerTest {
 
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
 
+        var response = fileUtils.readResourceFile("user/put-user-by-id-400.json");
+
         mockMvc.perform(MockMvcRequestBuilders.put(URL)
                         .content(request)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.status().reason("User not found"));
+                .andExpect(MockMvcResultMatchers.content().json(response));
 
     }
 

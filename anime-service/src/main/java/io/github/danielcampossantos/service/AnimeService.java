@@ -1,7 +1,7 @@
 package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.domain.Anime;
-import io.github.danielcampossantos.exeption.BadRequestException;
+import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.repository.AnimeHardCodedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
