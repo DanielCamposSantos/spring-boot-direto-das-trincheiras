@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalErrorHandlerAdvice {
-    public GlobalErrorHandlerAdvice() {
-        System.out.println("GlobalErrorHandlerAdvice loaded");
-    }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<DefaultErrorMessage> handleBadRequestException(BadRequestException e) {
