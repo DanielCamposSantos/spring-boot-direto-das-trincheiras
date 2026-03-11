@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.userservice.response;
+package io.github.danielcampossantos.response;
 
 import lombok.Builder;
 

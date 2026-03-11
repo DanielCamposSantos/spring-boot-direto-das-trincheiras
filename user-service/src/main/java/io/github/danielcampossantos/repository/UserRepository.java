@@ -1,6 +1,6 @@
-package io.github.danielcampossantos.userservice.repository;
+package io.github.danielcampossantos.repository;
 
-import io.github.danielcampossantos.userservice.domain.User;
+import io.github.danielcampossantos.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

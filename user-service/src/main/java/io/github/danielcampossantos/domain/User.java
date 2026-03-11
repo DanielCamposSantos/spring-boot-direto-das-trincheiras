@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.userservice.domain;
+package io.github.danielcampossantos.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

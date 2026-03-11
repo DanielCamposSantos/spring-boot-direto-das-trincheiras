@@ -1,10 +1,10 @@
-package io.github.danielcampossantos.userservice.controller;
+package io.github.danielcampossantos.controller;
 
-import io.github.danielcampossantos.userservice.commons.FileUtils;
-import io.github.danielcampossantos.userservice.commons.UserUtils;
-import io.github.danielcampossantos.userservice.commons.ValidationErrors;
-import io.github.danielcampossantos.userservice.domain.User;
-import io.github.danielcampossantos.userservice.repository.UserRepository;
+import io.github.danielcampossantos.commons.FileUtils;
+import io.github.danielcampossantos.commons.UserUtils;
+import io.github.danielcampossantos.commons.ValidationErrors;
+import io.github.danielcampossantos.domain.User;
+import io.github.danielcampossantos.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;

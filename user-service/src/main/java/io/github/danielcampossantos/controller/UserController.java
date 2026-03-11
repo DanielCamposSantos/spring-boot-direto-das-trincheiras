@@ -1,11 +1,11 @@
-package io.github.danielcampossantos.userservice.controller;
+package io.github.danielcampossantos.controller;
 
-import io.github.danielcampossantos.userservice.mapper.UserMapper;
-import io.github.danielcampossantos.userservice.request.UserPostRequest;
-import io.github.danielcampossantos.userservice.request.UserPutRequest;
-import io.github.danielcampossantos.userservice.response.UserGetResponse;
-import io.github.danielcampossantos.userservice.response.UserPostResponse;
-import io.github.danielcampossantos.userservice.service.UserService;
+import io.github.danielcampossantos.mapper.UserMapper;
+import io.github.danielcampossantos.request.UserPostRequest;
+import io.github.danielcampossantos.request.UserPutRequest;
+import io.github.danielcampossantos.response.UserGetResponse;
+import io.github.danielcampossantos.response.UserPostResponse;
+import io.github.danielcampossantos.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -9,14 +9,11 @@
         <version>4.0.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-
     <groupId>io.github.danielcampossantos</groupId>
     <artifactId>commons-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>commons-core</name>
-    <description>Classes utilizadas em todos os microserviços</description>
-
+    <description>Tratamento personalizado de excessões</description>
 
     <properties>
         <maven.compiler.source>24</maven.compiler.source>
@@ -28,6 +25,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

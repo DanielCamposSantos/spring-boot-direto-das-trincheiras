@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.userservice;
+package io.github.danielcampossantos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

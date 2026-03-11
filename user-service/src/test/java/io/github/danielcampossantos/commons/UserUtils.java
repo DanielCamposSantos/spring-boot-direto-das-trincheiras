@@ -1,6 +1,6 @@
-package io.github.danielcampossantos.userservice.commons;
+package io.github.danielcampossantos.commons;
 
-import io.github.danielcampossantos.userservice.domain.User;
+import io.github.danielcampossantos.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

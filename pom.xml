@@ -5,7 +5,7 @@
 
     <groupId>io.github.danielcampossantos</groupId>
     <artifactId>spring-boot-direto-das-trincheiras</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>4.0.3</version>
     <packaging>pom</packaging>
 
     <modules>

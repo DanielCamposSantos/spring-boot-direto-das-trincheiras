@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.userservice.commons;
+package io.github.danielcampossantos.commons;
 
 import lombok.RequiredArgsConstructor;
 
