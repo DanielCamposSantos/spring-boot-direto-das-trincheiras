@@ -2,7 +2,7 @@ package io.github.danielcampossantos.userservice.service;
 
 import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.domain.User;
-import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
+import io.github.danielcampossantos.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserHardCodedRepository repository;
+    private final UserRepository repository;
 
     public List<User> findAll(String name) {
-        return name == null ? repository.findAll() : repository.findByName(name);
+        return name == null ? repository.findAll() : repository.findByFirstNameIgnoreCase(name);
     }
 
     public User findByIdOrThrowBadRequestException(Long id) {
@@ -33,7 +33,7 @@ public class UserService {
 
     public void update(User userToUpdate) {
         assertUserExists(userToUpdate.getId());
-        repository.update(userToUpdate);
+        repository.save(userToUpdate);
     }
 
     private void assertUserExists(Long id) {

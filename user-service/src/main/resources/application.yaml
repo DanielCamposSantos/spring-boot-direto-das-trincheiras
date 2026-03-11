@@ -14,6 +14,9 @@ spring:
     url: jdbc:mysql://localhost:3306/user_service?useTimeZone=true&serverTimezone=UTC&createDataBaseIfNotExist=true
     username: ${ENV_ROOT_USER}
     password: ${ENV_ROOT_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 
 server:

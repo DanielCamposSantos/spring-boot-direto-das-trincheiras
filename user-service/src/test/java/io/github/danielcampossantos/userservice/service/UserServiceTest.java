@@ -3,7 +3,7 @@ package io.github.danielcampossantos.userservice.service;
 import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.domain.User;
-import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
+import io.github.danielcampossantos.userservice.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,8 @@ class UserServiceTest {
     private UserService service;
 
     @Mock
-    private UserHardCodedRepository repository;
+    private UserRepository repository;
+
 
     @InjectMocks
     private UserUtils userUtils;
@@ -45,7 +46,7 @@ class UserServiceTest {
         var userToFound = userList.getFirst();
         var expectedUserFound = Collections.singletonList(userToFound);
 
-        BDDMockito.when(repository.findByName(userToFound.getFirstName())).thenReturn(expectedUserFound);
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(userToFound.getFirstName())).thenReturn(expectedUserFound);
 
         var users = service.findAll(userToFound.getFirstName());
 
@@ -64,11 +65,9 @@ class UserServiceTest {
 
         var users = service.findAll(null);
 
-        Assertions.assertThat(repository.findAll())
+        Assertions.assertThat(users)
                 .isNotEmpty()
-                .isNotNull()
-                .isEqualTo(users);
-
+                .hasSameElementsAs(userList);
     }
 
     @Test
@@ -77,7 +76,7 @@ class UserServiceTest {
     void findAll_ReturnsEmptyList_WhenUserNotFound() {
         var userNotFound = "not-found";
 
-        BDDMockito.when(repository.findByName(userNotFound)).thenReturn(Collections.emptyList());
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(userNotFound)).thenReturn(Collections.emptyList());
 
         var users = service.findAll(userNotFound);
 
@@ -90,16 +89,16 @@ class UserServiceTest {
     @Order(4)
     @DisplayName("findById returns user by id when successful")
     void findById_ReturnsUserById_WhenSuccessful() {
-        var userToFound = userList.getFirst();
-        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToFound));
+        var userToFind = userList.getFirst();
+        BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToFind));
 
-        var user = service.findByIdOrThrowBadRequestException(userToFound.getId());
+        var user = service.findByIdOrThrowBadRequestException(userToFind.getId());
 
         Assertions.assertThat(user.getId())
                 .isNotNull()
-                .isEqualTo(userToFound.getId());
+                .isEqualTo(userToFind.getId());
 
-        Assertions.assertThat(user.getFirstName()).isEqualTo(userToFound.getFirstName());
+        Assertions.assertThat(user.getFirstName()).isEqualTo(userToFind.getFirstName());
     }
 
     @Test

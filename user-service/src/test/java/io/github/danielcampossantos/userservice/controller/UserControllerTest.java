@@ -4,8 +4,7 @@ import io.github.danielcampossantos.userservice.commons.FileUtils;
 import io.github.danielcampossantos.userservice.commons.UserUtils;
 import io.github.danielcampossantos.userservice.commons.ValidationErrors;
 import io.github.danielcampossantos.userservice.domain.User;
-import io.github.danielcampossantos.userservice.repository.UserData;
-import io.github.danielcampossantos.userservice.repository.UserHardCodedRepository;
+import io.github.danielcampossantos.userservice.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -19,13 +18,13 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
@@ -43,15 +42,12 @@ class UserControllerTest {
     @Autowired
     private UserUtils userUtils;
 
-
     @MockitoBean
-    private UserData userData;
-
-    @MockitoSpyBean
-    private UserHardCodedRepository repository;
+    private UserRepository repository;
 
 
     private static List<User> userList;
+
 
     @BeforeEach
     void init() {
@@ -64,7 +60,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(1)
     void findAll_ReturnsListWithAllUsers_WhenNameIsNull() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var response = fileUtils.readResourceFile("user/get-user-null-name-200.json");
 
@@ -80,13 +76,15 @@ class UserControllerTest {
     @SneakyThrows
     @Order(2)
     void findAll_ReturnsListWithUserFoundByName_WhenNameIsNull() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-
         var response = fileUtils.readResourceFile("user/get-user-cezar-name-200.json");
+        var firstName = "Cezar";
 
-        var name = "Cezar";
+        var usersByFirstName = userList.stream().filter(user -> user.getFirstName().equals(firstName)).toList();
 
-        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
+        BDDMockito.when(repository.findByFirstNameIgnoreCase(firstName)).thenReturn(usersByFirstName);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", firstName))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(response));
@@ -98,7 +96,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(3)
     void findAll_ReturnsEmptyList_WhenUserNotFound() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var response = fileUtils.readResourceFile("user/get-user-x-name-200.json");
 
@@ -116,11 +114,13 @@ class UserControllerTest {
     @SneakyThrows
     @Order(4)
     void findById_ReturnsUserById_WhenSuccessful() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-
         var response = fileUtils.readResourceFile("user/get-user-by-id-200.json");
 
         var id = 1L;
+        var userOptional = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
+
+        BDDMockito.when(repository.findById(id)).thenReturn(userOptional);
+
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -134,7 +134,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(5)
     void findById_ThrowsBadRequestException_WhenUserNotFoundById() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var response = fileUtils.readResourceFile("user/get-user-by-id-400.json");
 
@@ -154,9 +154,9 @@ class UserControllerTest {
         var request = fileUtils.readResourceFile("user/post-request-user-200.json");
         var response = fileUtils.readResourceFile("user/post-response-user-201.json");
 
-        var userToSaved = userUtils.newUserToSave();
+        var userToSave = userUtils.newUserToSave();
 
-        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(userToSaved);
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(userToSave);
 
 
         mockMvc.perform(MockMvcRequestBuilders.post(URL)
@@ -173,9 +173,10 @@ class UserControllerTest {
     @SneakyThrows
     @Order(7)
     void delete_RemovesUser_WhenSuccessful() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
-
         var id = 1L;
+        var userOptional = userList.stream().filter(user -> user.getId().equals(id)).findFirst();
+
+        BDDMockito.when(repository.findById(id)).thenReturn(userOptional);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(URL + "/{id}", id))
                 .andDo(MockMvcResultHandlers.print())
@@ -188,7 +189,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(8)
     void delete_ThrowsBadRequestException_WhenUserNotFound() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var id = 99L;
         var response = fileUtils.readResourceFile("user/delete-user-by-id-400.json");
@@ -206,7 +207,10 @@ class UserControllerTest {
     @SneakyThrows
     @Order(9)
     void update_UpdatesUser_WhenSuccessful() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        var id = 1L;
+        var userToUpdate = userUtils.newUserToUpdate(id);
+
+        BDDMockito.when(repository.findById(userToUpdate.getId())).thenReturn(Optional.of(userToUpdate));
 
         var request = fileUtils.readResourceFile("user/put-request-user-200.json");
 
@@ -224,7 +228,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(10)
     void update_ThrowsBadRequestException_WhenUserNotFound() {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
 
@@ -284,7 +288,7 @@ class UserControllerTest {
     @SneakyThrows
     @Order(10)
     void update_ReturnsBadRequest_WhenFieldsAreInvalid(String fileName, List<String> errors) {
-        BDDMockito.when(userData.getUsers()).thenReturn(userList);
+        BDDMockito.when(repository.findAll()).thenReturn(userList);
 
         var request = fileUtils.readResourceFile("user/%s".formatted(fileName));
 
