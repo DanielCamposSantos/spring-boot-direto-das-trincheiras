@@ -1,0 +1,10 @@
+spring:
+  web:
+    error:
+      include-stacktrace: on_param
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    io.github.danielcampossantos: DEBUG

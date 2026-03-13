@@ -18,7 +18,6 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -30,7 +29,7 @@ import java.util.stream.Stream;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(controllers = ProducerController.class)
-@ComponentScan(basePackages = {"io.github.danielcampossantos"})
+@ComponentScan(basePackages = "io.github.danielcampossantos")
 class ProducerControllerTest {
     private static final String URL = "/producers";
 
@@ -40,7 +39,7 @@ class ProducerControllerTest {
     @MockitoBean
     private ProducerData producerData;
 
-    @MockitoSpyBean
+    @MockitoBean
     private ProducerHardCodedRepository repository;
 
     @Autowired

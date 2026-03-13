@@ -1,9 +1,8 @@
 spring:
+  config:
+    import: optional:classpath:.env[.properties]
   application:
     name: anime-service
-  web:
-    error:
-      include-stacktrace: on_param
   threads:
     virtual:
       enabled: true
@@ -12,19 +11,18 @@ spring:
       use:
         header: X-API-Version
       default: 1
+  datasource:
+    url: jdbc:mysql://localhost:3306/anime-service?useTimeZone=true&serverTimezone=UTC&createDataBaseIfNotExist=true
+    username: ${ENV_ROOT_USER}
+    password: ${ENV_ROOT_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   servlet:
     context-path: /
   tomcat:
     threads:
       max: 20
-
-logging:
-  level:
-    io.github.danielcampossantos: DEBUG
-
-database:
-  url: "${DB_URL:localhost}:${DB_PORT:3306}"
-  username: "${LOCAL_USERNAME:daniel}"
-  password: "${LOCAL_PASSWORD:123456}"
 

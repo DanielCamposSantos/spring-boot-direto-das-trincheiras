@@ -2,7 +2,7 @@ package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.commons.AnimeUtils;
 import io.github.danielcampossantos.domain.Anime;
-import io.github.danielcampossantos.repository.AnimeHardCodedRepository;
+import io.github.danielcampossantos.repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +25,7 @@ class AnimeServiceTest {
     private AnimeService service;
 
     @Mock
-    private AnimeHardCodedRepository repository;
+    private AnimeRepository repository;
 
     @InjectMocks
     private AnimeUtils animeUtils;
@@ -59,7 +59,7 @@ class AnimeServiceTest {
     void findAll_ReturnsFoundAnimeInList_WhenNameExists() {
         var anime = animesList.getFirst();
         var expectedAnimesFound = Collections.singletonList(anime);
-        BDDMockito.when(repository.findByName(anime.getName())).thenReturn(expectedAnimesFound);
+        BDDMockito.when(repository.findByNameIgnoreCase(anime.getName())).thenReturn(expectedAnimesFound);
 
         var animes = service.findAll(anime.getName());
 
@@ -73,7 +73,7 @@ class AnimeServiceTest {
     @Order(3)
     void findAll_ReturnsEmptyListOfAnimes_WhenArgumentIsNotFound() {
         var name = "not-found";
-        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+        BDDMockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Collections.emptyList());
 
         var animes = service.findAll(name);
 
@@ -176,7 +176,6 @@ class AnimeServiceTest {
         animeToBeUpdated.setName("UPDATED PRODUCER NAME");
 
         BDDMockito.when(repository.findById(animeToBeUpdated.getId())).thenReturn(Optional.of(animeToBeUpdated));
-        BDDMockito.doNothing().when(repository).update(animeToBeUpdated);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(animeToBeUpdated));
 

@@ -2,7 +2,7 @@ package io.github.danielcampossantos.service;
 
 import io.github.danielcampossantos.domain.Anime;
 import io.github.danielcampossantos.exception.BadRequestException;
-import io.github.danielcampossantos.repository.AnimeHardCodedRepository;
+import io.github.danielcampossantos.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AnimeService {
-    private final AnimeHardCodedRepository repository;
+    private final AnimeRepository repository;
 
     public List<Anime> findAll(String name) {
-        return name == null ? repository.findAll() : repository.findByName(name);
+        return name == null ? repository.findAll() : repository.findByNameIgnoreCase(name);
     }
 
     public Anime findByIdOrThrowBadRequestException(Long id) {
@@ -34,7 +34,7 @@ public class AnimeService {
     public void update(Anime animeToBeUpdated) {
         assertAnimeExists(animeToBeUpdated.getId());
 
-        repository.update(animeToBeUpdated);
+        repository.save(animeToBeUpdated);
     }
 
     public void assertAnimeExists(long id) {
