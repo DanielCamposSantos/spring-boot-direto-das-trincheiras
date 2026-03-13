@@ -1,7 +1,8 @@
 package io.github.danielcampossantos.service;
 
-import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.domain.User;
+import io.github.danielcampossantos.exception.BadRequestException;
+import io.github.danielcampossantos.exception.EmailAlreadyExistsException;
 import io.github.danielcampossantos.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class UserService {
     }
 
     public User save(User user) {
+        assertThatEmailDoesNotExist(user.getEmail());
         return repository.save(user);
     }
 
@@ -33,6 +35,7 @@ public class UserService {
 
     public void update(User userToUpdate) {
         assertUserExists(userToUpdate.getId());
+        assertThatEmailDoesNotExist(userToUpdate.getEmail(), userToUpdate.getId());
         repository.save(userToUpdate);
     }
 
@@ -40,5 +43,15 @@ public class UserService {
         findByIdOrThrowBadRequestException(id);
     }
 
+    private void assertThatEmailDoesNotExist(String email) {
+        repository.findByEmail(email).ifPresent(this::throwEmailAlreadyExistsException);
+    }
 
+    private void assertThatEmailDoesNotExist(String email, Long id) {
+        repository.findByEmailAndIdNot(email, id).ifPresent(this::throwEmailAlreadyExistsException);
+    }
+
+    private void throwEmailAlreadyExistsException(User user) {
+        throw new EmailAlreadyExistsException("Email %s already exists".formatted(user.getEmail()));
+    }
 }

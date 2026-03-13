@@ -208,7 +208,7 @@ class UserControllerTest {
     @Order(9)
     void update_UpdatesUser_WhenSuccessful() {
         var id = 1L;
-        var userToUpdate = userUtils.newUserToUpdate(id);
+        var userToUpdate = userList.getFirst().withId(id);
 
         BDDMockito.when(repository.findById(userToUpdate.getId())).thenReturn(Optional.of(userToUpdate));
 

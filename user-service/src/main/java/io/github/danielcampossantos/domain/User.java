@@ -3,6 +3,7 @@ package io.github.danielcampossantos.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+@With
 @Data
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

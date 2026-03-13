@@ -42,12 +42,4 @@ public class UserUtils {
                 .build();
     }
 
-    public User newUserToUpdate(Long id) {
-        return User.builder()
-                .id(id)
-                .firstName("UPDATED FIST NAME")
-                .lastName("UPDATED LAST NAME")
-                .email("UPDATED@email.com")
-                .build();
-    }
 }
