@@ -12,7 +12,7 @@ public class AnimeUtils {
         var mashle = Anime.builder().id(1L).name("Mashle").build();
         var fullMetal = Anime.builder().id(2L).name("Full Metal Brotherhood").build();
         var steinsGate = Anime.builder().id(3L).name("Steins Gate").build();
-        return new ArrayList<>(List.of(mashle,fullMetal,steinsGate));
+        return new ArrayList<>(List.of(mashle, fullMetal, steinsGate));
     }
 
     public Anime newAnimeToSave() {
