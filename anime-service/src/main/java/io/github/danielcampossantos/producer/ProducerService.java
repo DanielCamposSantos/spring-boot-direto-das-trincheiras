@@ -1,7 +1,7 @@
 package io.github.danielcampossantos.producer;
 
-import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.domain.Producer;
+import io.github.danielcampossantos.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class ProducerService {
         findByIdOrThrowBadRequest(producer.getId());
     }
 
-    private  BadRequestException throwBadRequestException() {
-       return new BadRequestException("Producer not found");
+    private BadRequestException throwBadRequestException() {
+        return new BadRequestException("Producer not found");
     }
 }

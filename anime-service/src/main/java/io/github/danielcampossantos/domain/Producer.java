@@ -20,7 +20,7 @@ public class Producer {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false,updatable = false,insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     @CreationTimestamp(source = SourceType.DB)
     private LocalDateTime createdAt;
 
