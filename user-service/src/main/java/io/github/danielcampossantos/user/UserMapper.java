@@ -1,10 +1,6 @@
-package io.github.danielcampossantos.mapper;
+package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.domain.User;
-import io.github.danielcampossantos.request.UserPostRequest;
-import io.github.danielcampossantos.request.UserPutRequest;
-import io.github.danielcampossantos.response.UserGetResponse;
-import io.github.danielcampossantos.response.UserPostResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

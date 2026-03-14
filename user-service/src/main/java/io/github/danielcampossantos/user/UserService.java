@@ -1,9 +1,8 @@
-package io.github.danielcampossantos.service;
+package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.domain.User;
 import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.exception.EmailAlreadyExistsException;
-import io.github.danielcampossantos.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

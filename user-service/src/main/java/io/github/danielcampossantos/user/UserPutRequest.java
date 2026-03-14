@@ -1,9 +1,12 @@
-package io.github.danielcampossantos.request;
+package io.github.danielcampossantos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public record UserPostRequest(
+public record UserPutRequest(
+        @NotNull(message = "The field 'id' is can not be null")
+        Long id,
         @NotBlank(message = "The field 'firstName' is required")
         String firstName,
         @NotBlank(message = "The field 'lastName' is required")

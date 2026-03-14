@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.repository;
+package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.commons.UserUtils;
 import org.assertj.core.api.Assertions;

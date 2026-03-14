@@ -1,10 +1,9 @@
-package io.github.danielcampossantos.service;
+package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.commons.UserUtils;
 import io.github.danielcampossantos.domain.User;
 import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.exception.EmailAlreadyExistsException;
-import io.github.danielcampossantos.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

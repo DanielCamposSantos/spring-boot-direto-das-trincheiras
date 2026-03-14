@@ -1,10 +1,9 @@
-package io.github.danielcampossantos.controller;
+package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.commons.UserUtils;
 import io.github.danielcampossantos.commons.ValidationErrors;
 import io.github.danielcampossantos.domain.User;
-import io.github.danielcampossantos.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -28,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @WebMvcTest(UserController.class)
-@ComponentScan("io.github.danielcampossantos")
+@ComponentScan(basePackages = {"io.github.danielcampossantos.user", "io.github.danielcampossantos.commons"})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserControllerTest {
     private static final String URL = "/v1/users";
