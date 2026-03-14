@@ -1,9 +1,5 @@
-package io.github.danielcampossantos.anime.mapper;
+package io.github.danielcampossantos.anime;
 
-import io.github.danielcampossantos.anime.response.AnimeGetResponse;
-import io.github.danielcampossantos.anime.request.AnimePostRequest;
-import io.github.danielcampossantos.anime.response.AnimePostResponse;
-import io.github.danielcampossantos.anime.request.AnimePutRequest;
 import io.github.danielcampossantos.domain.Anime;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

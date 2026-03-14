@@ -1,8 +1,7 @@
-package io.github.danielcampossantos.producer.service;
+package io.github.danielcampossantos.producer;
 
-import io.github.danielcampossantos.producer.repository.ProducerRepository;
-import io.github.danielcampossantos.domain.Producer;
 import io.github.danielcampossantos.exception.BadRequestException;
+import io.github.danielcampossantos.domain.Producer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +19,12 @@ public class ProducerService {
 
     public Producer findByIdOrThrowBadRequest(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Producer not found"));
+                .orElseThrow(this::throwBadRequestException);
     }
 
     public Producer save(Producer producer) {
         return repository.save(producer);
     }
-
 
     public void delete(Long id) {
         var producer = findByIdOrThrowBadRequest(id);
@@ -34,10 +32,15 @@ public class ProducerService {
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = findByIdOrThrowBadRequest(producerToUpdate.getId());
-        producer.setCreatedAt(producerToUpdate.getCreatedAt());
-        repository.save(producer);
+        assertProducerExists(producerToUpdate);
+        repository.save(producerToUpdate);
     }
 
+    private void assertProducerExists(Producer producer) {
+        findByIdOrThrowBadRequest(producer.getId());
+    }
 
+    private  BadRequestException throwBadRequestException() {
+       return new BadRequestException("Producer not found");
+    }
 }

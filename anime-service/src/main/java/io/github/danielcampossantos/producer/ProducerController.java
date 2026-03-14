@@ -1,12 +1,6 @@
-package io.github.danielcampossantos.producer.controller;
+package io.github.danielcampossantos.producer;
 
 
-import io.github.danielcampossantos.producer.mapper.ProducerMapper;
-import io.github.danielcampossantos.producer.request.ProducerPostRequest;
-import io.github.danielcampossantos.producer.request.ProducerPutRequest;
-import io.github.danielcampossantos.producer.response.ProducerGetResponse;
-import io.github.danielcampossantos.producer.response.ProducerPostResponse;
-import io.github.danielcampossantos.producer.service.ProducerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

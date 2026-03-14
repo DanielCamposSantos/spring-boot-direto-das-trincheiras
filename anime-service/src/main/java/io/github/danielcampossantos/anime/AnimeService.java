@@ -1,6 +1,5 @@
-package io.github.danielcampossantos.anime.service;
+package io.github.danielcampossantos.anime;
 
-import io.github.danielcampossantos.anime.repository.AnimeRepository;
 import io.github.danielcampossantos.domain.Anime;
 import io.github.danielcampossantos.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ public class AnimeService {
     }
 
     public Anime findByIdOrThrowBadRequestException(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Anime not found"));
+        return repository.findById(id).orElseThrow(this::throwBadRequestException);
     }
 
     public Anime save(Anime anime) {
@@ -41,4 +39,7 @@ public class AnimeService {
         findByIdOrThrowBadRequestException(id);
     }
 
+    private BadRequestException throwBadRequestException() {
+        return new BadRequestException("Anime not found");
+    }
 }

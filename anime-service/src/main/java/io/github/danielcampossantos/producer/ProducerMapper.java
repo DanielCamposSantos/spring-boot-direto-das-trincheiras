@@ -1,10 +1,6 @@
-package io.github.danielcampossantos.producer.mapper;
+package io.github.danielcampossantos.producer;
 
 import io.github.danielcampossantos.domain.Producer;
-import io.github.danielcampossantos.producer.response.ProducerGetResponse;
-import io.github.danielcampossantos.producer.request.ProducerPostRequest;
-import io.github.danielcampossantos.producer.response.ProducerPostResponse;
-import io.github.danielcampossantos.producer.request.ProducerPutRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

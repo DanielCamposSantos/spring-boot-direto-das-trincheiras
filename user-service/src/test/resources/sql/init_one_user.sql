@@ -1,0 +1,1 @@
+insert into "User" ("email","firstName","lastName") values ('pauloAlcantara@email.com','Paulo','Alcantara')

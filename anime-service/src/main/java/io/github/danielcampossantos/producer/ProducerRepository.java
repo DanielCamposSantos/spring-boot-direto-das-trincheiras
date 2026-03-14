@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.producer.repository;
+package io.github.danielcampossantos.producer;
 
 import io.github.danielcampossantos.domain.Producer;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,5 @@
 package io.github.danielcampossantos.anime;
 
-import io.github.danielcampossantos.anime.controller.AnimeController;
-import io.github.danielcampossantos.anime.repository.AnimeRepository;
 import io.github.danielcampossantos.commons.AnimeUtils;
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.domain.Anime;

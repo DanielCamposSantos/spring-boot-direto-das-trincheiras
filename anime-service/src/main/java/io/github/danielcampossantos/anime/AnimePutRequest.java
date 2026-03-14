@@ -1,10 +1,11 @@
-package io.github.danielcampossantos.producer.request;
-
+package io.github.danielcampossantos.anime;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
-public record ProducerPutRequest(
+@Builder
+public record AnimePutRequest(
         @NotNull(message = "The field 'id' is required")
         Long id,
         @NotBlank(message = "The field 'name' is required")

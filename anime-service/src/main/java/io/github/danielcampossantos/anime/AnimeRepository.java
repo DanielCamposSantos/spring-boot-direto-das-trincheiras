@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.anime.repository;
+package io.github.danielcampossantos.anime;
 
 import io.github.danielcampossantos.domain.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;

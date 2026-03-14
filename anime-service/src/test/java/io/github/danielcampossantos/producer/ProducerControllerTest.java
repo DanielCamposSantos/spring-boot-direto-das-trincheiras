@@ -3,8 +3,6 @@ package io.github.danielcampossantos.producer;
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.commons.ProducerUtils;
 import io.github.danielcampossantos.domain.Producer;
-import io.github.danielcampossantos.producer.controller.ProducerController;
-import io.github.danielcampossantos.producer.repository.ProducerRepository;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;

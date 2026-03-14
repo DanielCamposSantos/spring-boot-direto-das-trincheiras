@@ -1,7 +1,5 @@
 package io.github.danielcampossantos.anime;
 
-import io.github.danielcampossantos.anime.repository.AnimeRepository;
-import io.github.danielcampossantos.anime.service.AnimeService;
 import io.github.danielcampossantos.commons.AnimeUtils;
 import io.github.danielcampossantos.domain.Anime;
 import org.assertj.core.api.Assertions;
@@ -177,6 +175,7 @@ class AnimeServiceTest {
         animeToBeUpdated.setName("UPDATED PRODUCER NAME");
 
         BDDMockito.when(repository.findById(animeToBeUpdated.getId())).thenReturn(Optional.of(animeToBeUpdated));
+        BDDMockito.when(repository.save(animeToBeUpdated)).thenReturn(animeToBeUpdated);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(animeToBeUpdated));
 

@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.producer.response;
+package io.github.danielcampossantos.producer;
 
 import lombok.Builder;
 

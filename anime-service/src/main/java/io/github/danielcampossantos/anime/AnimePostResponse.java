@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.anime.response;
+package io.github.danielcampossantos.anime;
 
 import lombok.Builder;
 

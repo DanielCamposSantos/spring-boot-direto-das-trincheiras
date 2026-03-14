@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.anime.request;
+package io.github.danielcampossantos.anime;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

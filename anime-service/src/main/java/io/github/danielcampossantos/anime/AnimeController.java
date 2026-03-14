@@ -1,11 +1,5 @@
-package io.github.danielcampossantos.anime.controller;
+package io.github.danielcampossantos.anime;
 
-import io.github.danielcampossantos.anime.mapper.AnimeMapper;
-import io.github.danielcampossantos.anime.request.AnimePostRequest;
-import io.github.danielcampossantos.anime.request.AnimePutRequest;
-import io.github.danielcampossantos.anime.response.AnimeGetResponse;
-import io.github.danielcampossantos.anime.response.AnimePostResponse;
-import io.github.danielcampossantos.anime.service.AnimeService;
 import io.github.danielcampossantos.domain.Anime;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

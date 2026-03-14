@@ -2,8 +2,6 @@ package io.github.danielcampossantos.producer;
 
 import io.github.danielcampossantos.commons.ProducerUtils;
 import io.github.danielcampossantos.domain.Producer;
-import io.github.danielcampossantos.producer.repository.ProducerRepository;
-import io.github.danielcampossantos.producer.service.ProducerService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -148,7 +146,7 @@ class ProducerServiceTest {
         producerToBeUpdated.setName("UPDATED PRODUCER NAME");
 
         BDDMockito.when(repository.findById(producerToBeUpdated.getId())).thenReturn(Optional.of(producerToBeUpdated));
-
+        BDDMockito.when(repository.save(producerToBeUpdated)).thenReturn(producerToBeUpdated);
         Assertions.assertThatNoException().isThrownBy(() -> service.update(producerToBeUpdated));
 
     }

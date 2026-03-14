@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.producer.request;
+package io.github.danielcampossantos.producer;
 
 
 import jakarta.validation.constraints.NotBlank;
