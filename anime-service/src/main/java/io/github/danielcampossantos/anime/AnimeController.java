@@ -35,12 +35,10 @@ public class AnimeController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<Anime>> findAllPaginated(Pageable pageable) {
+    public ResponseEntity<Page<AnimeGetResponse>> findAllPaginated(Pageable pageable) {
         log.debug("Request to get list of animes paginated");
 
-        var pageAnime = service.findAllPaginated(pageable);
-
-//        var animeGetResponses = mapper.toAnimeGetResponseList(animes);
+        var pageAnime = service.findAllPaginated(pageable).map(mapper::toAnimeGetResponse);
 
         return ResponseEntity.ok(pageAnime);
 
