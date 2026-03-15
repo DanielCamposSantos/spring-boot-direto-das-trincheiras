@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -62,7 +61,7 @@ class ProfileControllerTest {
     @DisplayName("GET /profiles returns list with all profiles when argument is null")
     @SneakyThrows
     void findAll_ReturnsListWithAllProfiles_WhenArgumentIsNull() {
-        var response = fileUtils.readResourceFile("profile/get-profile-null-name-200.json");
+        var response = fileUtils.readResourceFile("profile/get-profile-200.json");
 
         BDDMockito.when(repository.findAll()).thenReturn(profileList);
 
@@ -77,13 +76,13 @@ class ProfileControllerTest {
     @Order(2)
     @DisplayName("GET /profiles?name=Silviodino returns list with profile found by name when successful")
     @SneakyThrows
-    void findAll_ReturnsListWithProfileFoundByName_WhenSuccessful() {
+    void findByName_ReturnsListWithProfileFoundByName_WhenSuccessful() {
         var response = fileUtils.readResourceFile("profile/get-profile-silviodino-name-200.json");
 
         var profileToFind = profileList.getFirst();
         var name = profileToFind.getName();
 
-        BDDMockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Collections.singletonList(profileToFind));
+        BDDMockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Optional.of(profileToFind));
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
@@ -97,15 +96,15 @@ class ProfileControllerTest {
     @DisplayName("GET /profiles?name=x returns empty list when profile not found")
     @SneakyThrows
     void findAll_ReturnsListWithProfileFoundByName_WhenProfileNotFound() {
-        var response = fileUtils.readResourceFile("profile/get-profile-x-name-200.json");
+        var response = fileUtils.readResourceFile("profile/get-profile-x-name-400.json");
         var name = "x";
 
-        BDDMockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Collections.emptyList());
+        BDDMockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Optional.empty());
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(URL).param("name", name))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content().json(response));
     }
 

@@ -18,10 +18,19 @@ public class ProfileController {
     private final ProfileMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<ProfileGetResponse>> findAll(@RequestParam(required = false) String name) {
-        var profiles = service.findAll(name);
+    public ResponseEntity<List<ProfileGetResponse>> findAll() {
+        var profiles = service.findAll();
 
         var response = mapper.toProfileGetResponseList(profiles);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(params = "name")
+    public ResponseEntity<ProfileGetResponse> findByName(@RequestParam String name) {
+        var profiles = service.findByNameOrThrowBadRequestException(name);
+
+        var response = mapper.toProfileGetResponse(profiles);
 
         return ResponseEntity.ok(response);
     }

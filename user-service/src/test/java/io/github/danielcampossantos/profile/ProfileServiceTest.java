@@ -3,6 +3,7 @@ package io.github.danielcampossantos.profile;
 import io.github.danielcampossantos.commons.ProfileUtils;
 import io.github.danielcampossantos.domain.Profile;
 import io.github.danielcampossantos.exception.BadRequestException;
+import io.github.danielcampossantos.exception.ProfileAlreadyExistsException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,41 +42,37 @@ class ProfileServiceTest {
     void findAll_ReturnsListWithAllProfiles_WhenArgumentIsNull() {
         Mockito.when(repository.findAll()).thenReturn(profileList);
 
-        var profiles = service.findAll(null);
+        var profiles = service.findAll();
 
         Assertions.assertThat(profiles).isNotNull().hasSameElementsAs(profileList);
     }
 
     @Test
     @Order(2)
-    @DisplayName("findAll returns list with profile found by name when successful")
-    void findAll_ReturnsListWithProfileFoundByName_WhenSuccessful() {
+    @DisplayName("findByName returns profile found by name when successful")
+    void findByName_ReturnsProfileFoundByName_WhenSuccessful() {
         var profileToFind = profileList.getFirst();
         var name = profileToFind.getName();
 
-        var profile = Collections.singletonList(profileToFind);
+        Mockito.when(repository.findByNameIgnoreCase(name)).thenReturn(Optional.of(profileToFind));
 
-        Mockito.when(repository.findByNameIgnoreCase(name)).thenReturn(profile);
-
-        var profiles = service.findAll(name);
+        var profiles = service.findByNameOrThrowBadRequestException(name);
 
         Assertions.assertThat(profiles)
                 .isNotNull()
-                .isNotEmpty()
-                .isEqualTo(profile);
+                .isEqualTo(profileToFind);
     }
 
     @Test
     @Order(3)
-    @DisplayName("findAll returns empty list when profile not found")
-    void findAll_ReturnsEmptyList_WhenProfileNotFound() {
-        Mockito.when(repository.findByNameIgnoreCase(ArgumentMatchers.anyString())).thenReturn(Collections.emptyList());
+    @DisplayName("findByName throws BadRequestException when profile not found")
+    void findByName_ThrowsBadRequestException_WhenProfileNotFound() {
+        Mockito.when(repository.findByNameIgnoreCase(ArgumentMatchers.anyString())).thenReturn(Optional.empty());
 
-        var profiles = service.findAll(ArgumentMatchers.anyString());
 
-        Assertions.assertThat(profiles)
-                .isNotNull()
-                .isEmpty();
+        Assertions.assertThatException()
+                .isThrownBy(() -> service.findByNameOrThrowBadRequestException(ArgumentMatchers.anyString()))
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -136,6 +132,21 @@ class ProfileServiceTest {
         var savedProfile = service.save(profileToSave);
 
         Assertions.assertThat(savedProfile).isNotNull().isEqualTo(profileToSave);
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("save throws ProfileAlreadyExistsException when profile already exists")
+    void save_ThrowsProfileAlreadyExistsException_WhenProfileAlreadyExists() {
+        var savedProfile = profileList.getFirst();
+        var profileToSave = profileUtils.newUserToSave().withName(savedProfile.getName());
+
+        BDDMockito.when(repository.findByNameIgnoreCase(profileToSave.getName())).thenReturn(Optional.of(savedProfile));
+
+
+        Assertions.assertThatException().isThrownBy(() -> service.save(profileToSave))
+                .isInstanceOf(ProfileAlreadyExistsException.class);
+
     }
 
 

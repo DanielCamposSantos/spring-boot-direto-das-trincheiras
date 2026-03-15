@@ -2,6 +2,7 @@ package io.github.danielcampossantos.profile;
 
 import io.github.danielcampossantos.domain.Profile;
 import io.github.danielcampossantos.exception.BadRequestException;
+import io.github.danielcampossantos.exception.ProfileAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +15,12 @@ import java.util.List;
 public class ProfileService {
     private final ProfileRepository repository;
 
-    public List<Profile> findAll(String name) {
-        return name == null ? repository.findAll() : repository.findByNameIgnoreCase(name);
+    public List<Profile> findAll() {
+        return repository.findAll();
+    }
+
+    public Profile findByNameOrThrowBadRequestException(String name) {
+        return repository.findByNameIgnoreCase(name).orElseThrow(this::throwBadRequestException);
     }
 
     public Page<Profile> findAllPaginated(Pageable pageable) {
@@ -27,8 +32,18 @@ public class ProfileService {
     }
 
     public Profile save(Profile profile) {
+        assertProfileDoesNotExistsException(profile.getName());
         return repository.save(profile);
     }
+
+    private void assertProfileDoesNotExistsException(String name) {
+        repository.findByNameIgnoreCase(name).ifPresent(this::throwProfileAlreadyExistsException);
+    }
+
+    private void throwProfileAlreadyExistsException(Profile profile) {
+        throw new ProfileAlreadyExistsException("Profile %s already exists".formatted(profile.getName()));
+    }
+
 
     private BadRequestException throwBadRequestException() {
         return new BadRequestException("Profile not found");
