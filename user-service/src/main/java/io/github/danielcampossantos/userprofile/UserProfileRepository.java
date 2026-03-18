@@ -16,4 +16,6 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 
     @EntityGraph(value = "UserProfile.fullDetails")
     List<UserProfile> findAll();
+
+
 }

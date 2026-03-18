@@ -1,8 +1,5 @@
 package io.github.danielcampossantos.userprofile;
 
-import io.github.danielcampossantos.domain.UserProfile;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +16,17 @@ import java.util.List;
 public class UserProfileController {
 
     private final UserProfileService service;
-
+    private final UserProfileMapper mapper;
 
 
     @GetMapping
-    public ResponseEntity<List<UserProfile>> findAll(){
+    public ResponseEntity<List<UserProfileGetResponse>> findAll() {
         log.debug("Request to get all user profiles");
 
         var userProfiles = service.findAll();
 
-        return ResponseEntity.ok(userProfiles);
+        var response = mapper.toUserProfileGetResponseList(userProfiles);
+
+        return ResponseEntity.ok(response);
     }
 }
