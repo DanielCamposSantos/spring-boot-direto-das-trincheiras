@@ -4,7 +4,9 @@ spring:
       include-stacktrace: on_param
   jpa:
     show-sql: true
+
 logging:
   level:
     io.github.danielcampossantos: DEBUG
+    net.ttddyy.dsproxy.listener.logging: debug
 
