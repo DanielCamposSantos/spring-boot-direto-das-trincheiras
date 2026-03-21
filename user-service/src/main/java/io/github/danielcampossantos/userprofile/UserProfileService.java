@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.userprofile;
 
+import io.github.danielcampossantos.domain.User;
 import io.github.danielcampossantos.domain.UserProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,10 @@ public class UserProfileService {
 
     public List<UserProfile> findAll() {
         return repository.findAll();
+    }
+
+    public List<User> findAllUsersByProfileId(Long id) {
+        return repository.findAllUsersByProfileId(id);
     }
 
 }

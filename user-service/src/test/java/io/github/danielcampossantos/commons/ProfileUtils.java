@@ -27,7 +27,14 @@ public class ProfileUtils {
         );
     }
 
-    public Profile newUserToSave() {
+    public Profile newProfileToSave() {
+        return Profile.builder()
+                .name("Saviolencia")
+                .description("Saviola do ódio")
+                .build();
+    }
+
+    public Profile newProfileSaved() {
         return Profile.builder()
                 .id(99L)
                 .name("Saviolencia")

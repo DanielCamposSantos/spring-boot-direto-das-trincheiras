@@ -125,7 +125,7 @@ class ProfileServiceTest {
     @Order(7)
     @DisplayName("save returns saved profile when successful")
     void save_ReturnsSavedProfile_WhenSuccessful() {
-        var profileToSave = profileUtils.newUserToSave();
+        var profileToSave = profileUtils.newProfileToSave();
 
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(profileToSave);
 
@@ -139,7 +139,7 @@ class ProfileServiceTest {
     @DisplayName("save throws ProfileAlreadyExistsException when profile already exists")
     void save_ThrowsProfileAlreadyExistsException_WhenProfileAlreadyExists() {
         var savedProfile = profileList.getFirst();
-        var profileToSave = profileUtils.newUserToSave().withName(savedProfile.getName());
+        var profileToSave = profileUtils.newProfileToSave().withName(savedProfile.getName());
 
         BDDMockito.when(repository.findByNameIgnoreCase(profileToSave.getName())).thenReturn(Optional.of(savedProfile));
 

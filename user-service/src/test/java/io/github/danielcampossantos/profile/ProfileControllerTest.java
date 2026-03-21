@@ -167,9 +167,9 @@ class ProfileControllerTest {
         var request = fileUtils.readResourceFile("profile/post-request-profile-200.json");
         var response = fileUtils.readResourceFile("profile/post-response-profile-201.json");
 
-        var profileToSave = profileUtils.newUserToSave();
+        var profileSaved = profileUtils.newProfileSaved();
 
-        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(profileToSave);
+        BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(profileSaved);
 
         mockMvc.perform(MockMvcRequestBuilders.post(URL)
                         .content(request)
@@ -188,7 +188,7 @@ class ProfileControllerTest {
     void save_ThrowsBadRequestException_WhenInvalidFields(String fileName, List<String> errors) {
         var request = fileUtils.readResourceFile("profile/%s".formatted(fileName));
 
-        var profileToSave = profileUtils.newUserToSave();
+        var profileToSave = profileUtils.newProfileToSave();
 
         BDDMockito.when(repository.save(ArgumentMatchers.any())).thenReturn(profileToSave);
 
