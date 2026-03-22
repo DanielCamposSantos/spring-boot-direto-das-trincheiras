@@ -1,6 +1,8 @@
 package io.github.danielcampossantos.user;
 
+
 import io.github.danielcampossantos.commons.UserUtils;
+import io.github.danielcampossantos.config.TestcontainersConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
-@Import(UserUtils.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({UserUtils.class, TestcontainersConfiguration.class})
 class UserRepositoryTest {
     @Autowired
     private UserRepository repository;
@@ -22,27 +24,24 @@ class UserRepositoryTest {
 
 
     @Test
+    @DisplayName("save creates an user")
     @Order(1)
-    @DisplayName("save creates user when successful")
     void save_CreatesUser_WhenSuccessful() {
-        var userToSave = userUtils.newUserToSave().withId(null);
-
+        var userToSave = userUtils.newUserToSave();
         var savedUser = repository.save(userToSave);
 
-        Assertions.assertThat(savedUser)
-                .hasNoNullFieldsOrProperties();
-
-        Assertions.assertThat(savedUser.getId()).isEqualTo(1L);
+        Assertions.assertThat(savedUser).hasNoNullFieldsOrProperties();
+        Assertions.assertThat(savedUser.getId()).isNotNull().isPositive();
     }
 
     @Test
+    @DisplayName("findAll returns a list with all users")
     @Order(2)
-    @DisplayName("findAll returns list with all users when successful")
     @Sql("/sql/init_one_user.sql")
-    void findAll_ReturnsListWithAllUsers_WhenSuccessful() {
+    void findAll_ReturnsAllUsers_WhenSuccessful() {
         var users = repository.findAll();
-
-        Assertions.assertThat(users)
-                .isNotEmpty();
+        Assertions.assertThat(users).isNotEmpty();
     }
+
+
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("animes")
 @Log4j2
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 
 public class AnimeController {
     private final AnimeMapper mapper;
