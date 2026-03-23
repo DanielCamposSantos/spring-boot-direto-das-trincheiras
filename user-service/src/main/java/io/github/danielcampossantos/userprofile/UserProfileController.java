@@ -31,7 +31,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/profiles/{id}/users")
-    public ResponseEntity<List<UserProfileUserGetRespose>> findAllUsersByProfileId(@PathVariable Long id) {
+    public ResponseEntity<List<UserProfileUserGetResponse>> findAllUsersByProfileId(@PathVariable Long id) {
         log.debug("Request to get all user profiles by id {}", id);
 
         var users = service.findAllUsersByProfileId(id);

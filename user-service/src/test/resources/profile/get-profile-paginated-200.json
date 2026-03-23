@@ -2,29 +2,24 @@
   "content": [
     {
       "id": 1,
-      "name": "Silviodino",
-      "description": "Um maluco com o gosto duvidoso sobre muitas coisas."
+      "name": "Admin",
+      "description": "Manages everything"
     },
     {
       "id": 2,
-      "name": "CezinhaGamer",
-      "description": "Não precisa falar mais nada"
-    },
-    {
-      "id": 3,
-      "name": "XendGamer",
-      "description": "Eu mesmo"
+      "name": "Tester",
+      "description": "System Tester"
     }
   ],
   "empty": false,
   "first": true,
   "last": true,
   "number": 0,
-  "numberOfElements": 3,
+  "numberOfElements": 2,
   "pageable": {
     "offset": 0,
     "pageNumber": 0,
-    "pageSize": 3,
+    "pageSize": 2,
     "paged": true,
     "sort": {
       "empty": true,
@@ -33,13 +28,12 @@
     },
     "unpaged": false
   },
-  "size": 3,
+  "size": 2,
   "sort": {
     "empty": true,
     "sorted": false,
     "unsorted": true
   },
-  "totalElements": 3,
+  "totalElements": 2,
   "totalPages": 1
 }
-

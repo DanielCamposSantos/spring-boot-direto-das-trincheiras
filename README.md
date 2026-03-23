@@ -94,8 +94,18 @@ Alguns pontos importantes explorados durante o desenvolvimento:
 - Docker
 
 ---
-
 ### Rodando a aplicação
 
 ```bash
 ./mvnw spring-boot:run
+```
+
+---
+
+## 📜 Histórico de Mudanças
+
+### [2026-03-22] - Testes de Integração e Refatoração
+- **Adição de RestAssured**: Implementação de testes de integração para `ProfileController` cobrindo cenários de sucesso e erro.
+- **Correção de Typo**: Renomeação de `UserProfileUserGetRespose` para `UserProfileUserGetResponse`.
+- **Padronização de Dados**: Atualização dos perfis de teste ("Silviodino" -> "Admin", "CezinhaGamer" -> "Tester") para maior clareza.
+- **Otimização**: Minificação de arquivos JSON de teste e melhoria nos scripts SQL de inicialização/limpeza (`clean_profiles.sql`).

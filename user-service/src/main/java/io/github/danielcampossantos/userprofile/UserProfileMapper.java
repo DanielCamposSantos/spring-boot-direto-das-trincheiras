@@ -12,5 +12,5 @@ public interface UserProfileMapper {
 
     List<UserProfileGetResponse> toUserProfileGetResponseList(List<UserProfile> userProfile);
 
-    List<UserProfileUserGetRespose> toUserProfileUsersGetResponseList(List<User> users);
+    List<UserProfileUserGetResponse> toUserProfileUsersGetResponseList(List<User> users);
 }

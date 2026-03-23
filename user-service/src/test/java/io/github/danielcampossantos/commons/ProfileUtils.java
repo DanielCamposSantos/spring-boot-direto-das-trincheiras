@@ -11,34 +11,29 @@ public class ProfileUtils {
         return List.of(
                 Profile.builder()
                         .id(1L)
-                        .name("Silviodino")
-                        .description("Um maluco com o gosto duvidoso sobre muitas coisas.")
+                        .name("Admin")
+                        .description("Manages everything")
                         .build(),
                 Profile.builder()
                         .id(2L)
-                        .name("CezinhaGamer")
-                        .description("Não precisa falar mais nada")
-                        .build(),
-                Profile.builder()
-                        .id(3L)
-                        .name("XendGamer")
-                        .description("Eu mesmo")
+                        .name("Tester")
+                        .description("System Tester")
                         .build()
         );
     }
 
     public Profile newProfileToSave() {
         return Profile.builder()
-                .name("Saviolencia")
-                .description("Saviola do ódio")
+                .name("Viewer")
+                .description("Regular Profile")
                 .build();
     }
 
     public Profile newProfileSaved() {
         return Profile.builder()
                 .id(99L)
-                .name("Saviolencia")
-                .description("Saviola do ódio")
+                .name("Viewer")
+                .description("Regular Profile")
                 .build();
     }
 

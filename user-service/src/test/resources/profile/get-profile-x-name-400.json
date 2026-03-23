@@ -1,4 +1,1 @@
-{
-  "status": 400,
-  "message": "Profile not found"
-}
+{"status":400,"message":"Profile not found"}

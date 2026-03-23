@@ -1,6 +1,6 @@
 package io.github.danielcampossantos.userprofile;
 
-public record UserProfileUserGetRespose(
+public record UserProfileUserGetResponse(
         Long id,
         String firstName,
         String lastName,

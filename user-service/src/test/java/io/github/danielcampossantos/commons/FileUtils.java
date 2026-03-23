@@ -1,6 +1,7 @@
 package io.github.danielcampossantos.commons;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,8 @@ import java.nio.file.Files;
 public class FileUtils {
     private final ResourceLoader resourceLoader;
 
-    public String readResourceFile(String fileName) throws IOException {
+    @SneakyThrows
+    public String readResourceFile(String fileName) {
         var file = resourceLoader.getResource("classpath:" + fileName).getFile();
         return new String(Files.readAllBytes(file.toPath()));
     }

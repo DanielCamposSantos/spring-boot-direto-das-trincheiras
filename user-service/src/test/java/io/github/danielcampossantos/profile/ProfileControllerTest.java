@@ -74,10 +74,10 @@ class ProfileControllerTest {
 
     @Test
     @Order(2)
-    @DisplayName("GET /profiles?name=Silviodino returns list with profile found by name when successful")
+    @DisplayName("GET /profiles?name=Tester returns list with profile found by name when successful")
     @SneakyThrows
     void findByName_ReturnsListWithProfileFoundByName_WhenSuccessful() {
-        var response = fileUtils.readResourceFile("profile/get-profile-silviodino-name-200.json");
+        var response = fileUtils.readResourceFile("profile/get-profile-Tester-name-200.json");
 
         var profileToFind = profileList.getFirst();
         var name = profileToFind.getName();
