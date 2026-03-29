@@ -3,6 +3,7 @@ package io.github.danielcampossantos.exception;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,6 +23,16 @@ public class GlobalErrorHandlerAdvice {
     public ResponseEntity<DefaultErrorMessage> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e) {
         var error = new DefaultErrorMessage(HttpStatus.BAD_REQUEST.value(), "Duplicate entry for one of the unique fields");
         return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        var errors = e.getBindingResult().getFieldErrors().stream()
+                .map(err -> new ValidationFieldAndError(err.getField(), err.getDefaultMessage()))
+                .toList();
+
+        var errorMessage = new ValidationErrorMessage(HttpStatus.BAD_REQUEST.value(), "Invalid field", errors);
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 
 }

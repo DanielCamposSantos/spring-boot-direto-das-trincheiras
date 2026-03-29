@@ -4,6 +4,7 @@ import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.config.IntegrationTestConfig;
 import lombok.SneakyThrows;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
+import net.javacrumbs.jsonunit.core.Option;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -178,7 +179,7 @@ class ProfileControllerIT extends IntegrationTestConfig {
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
         JsonAssertions.assertThatJson(responseEntity.getBody())
-                .whenIgnoringPaths("timestamp")
+                .when(Option.IGNORING_ARRAY_ORDER)
                 .isEqualTo(expectedResponse);
 
     }

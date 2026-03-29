@@ -5,6 +5,10 @@
     {
       "field": "email",
       "message": "The e-mail is not valid"
+    },
+    {
+      "field": "id",
+      "message": "The field 'id' is can not be null"
     }
   ]
 }

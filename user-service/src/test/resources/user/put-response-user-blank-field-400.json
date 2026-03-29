@@ -15,6 +15,10 @@
       "message": "The field 'lastName' is required"
     },
     {
+      "field": "id",
+      "message": "The field 'id' is can not be null"
+    },
+    {
       "field": "email",
       "message": "The e-mail is not valid"
     }
