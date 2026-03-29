@@ -1,1 +1,18 @@
-{"timestamp":"2026-03-23T16:58:33.092Z","status":400,"error":"Bad Request","path":"/v1/users"}
+{
+  "status": 400,
+  "message": "Invalid field",
+  "errors": [
+    {
+      "field": "lastName",
+      "message": "The field 'lastName' is required"
+    },
+    {
+      "field": "firstName",
+      "message": "The field 'firstName' is required"
+    },
+    {
+      "field": "email",
+      "message": "The field 'email' is required"
+    }
+  ]
+}

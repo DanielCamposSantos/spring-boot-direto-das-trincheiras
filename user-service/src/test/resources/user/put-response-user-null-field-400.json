@@ -3,20 +3,20 @@
   "message": "Invalid field",
   "errors": [
     {
-      "field": "email",
-      "message": "The field 'email' is required"
+      "field": "lastName",
+      "message": "The field 'lastName' is required"
     },
     {
       "field": "firstName",
       "message": "The field 'firstName' is required"
     },
     {
-      "field": "lastName",
-      "message": "The field 'lastName' is required"
+      "field": "id",
+      "message": "The field 'id' is can not be null"
     },
     {
       "field": "email",
-      "message": "The e-mail is not valid"
+      "message": "The field 'email' is required"
     }
   ]
 }
