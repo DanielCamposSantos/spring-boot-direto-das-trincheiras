@@ -1,4 +1,1 @@
-{
-  "status": 400,
-  "message": "User not found"
-}
+{"Status":400,"Message":"User not found"}
