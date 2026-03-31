@@ -1,6 +1,6 @@
 package io.github.danielcampossantos.exception;
 
-public record ValidationFieldAndError(
+public record ErrorMessages(
         String field,
         String message
 ) {

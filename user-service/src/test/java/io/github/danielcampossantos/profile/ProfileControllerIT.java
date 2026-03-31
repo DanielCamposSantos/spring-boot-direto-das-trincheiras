@@ -180,6 +180,7 @@ class ProfileControllerIT extends IntegrationTestConfig {
 
         JsonAssertions.assertThatJson(responseEntity.getBody())
                 .when(Option.IGNORING_ARRAY_ORDER)
+                .whenIgnoringPaths("timestamp")
                 .isEqualTo(expectedResponse);
 
     }

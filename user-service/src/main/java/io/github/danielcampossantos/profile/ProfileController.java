@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.profile;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/profiles")
+@Tag(name = "Profiles API", description = "Profile related endpoints")
 public class ProfileController {
     private final ProfileService service;
     private final ProfileMapper mapper;
