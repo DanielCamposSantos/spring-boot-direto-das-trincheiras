@@ -15,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import({UserUtils.class, TestcontainersConfiguration.class})
-class UserRepositoryTest {
+class UserRepositoryIT {
     @Autowired
     private UserRepository repository;
 
