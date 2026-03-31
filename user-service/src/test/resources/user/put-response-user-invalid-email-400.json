@@ -1,7 +1,8 @@
 {
+  "timestamp": "2026-03-30T22:38:25.4854359-03:00",
   "status": 400,
-  "message": "Invalid field",
-  "errors": [
+  "error": "Bad Request",
+  "messages": [
     {
       "field": "email",
       "message": "The e-mail is not valid"
@@ -10,5 +11,6 @@
       "field": "id",
       "message": "The field 'id' is can not be null"
     }
-  ]
+  ],
+  "path": "/v1/users"
 }

@@ -1,7 +1,12 @@
 {
+  "timestamp": "2026-03-30T22:40:00.0922079-03:00",
   "status": 400,
-  "message": "Invalid field",
-  "errors": [
+  "error": "Bad Request",
+  "messages": [
+    {
+      "field": "email",
+      "message": "The field 'email' is required"
+    },
     {
       "field": "lastName",
       "message": "The field 'lastName' is required"
@@ -9,10 +14,7 @@
     {
       "field": "firstName",
       "message": "The field 'firstName' is required"
-    },
-    {
-      "field": "email",
-      "message": "The field 'email' is required"
     }
-  ]
+  ],
+  "path": "/v1/users"
 }

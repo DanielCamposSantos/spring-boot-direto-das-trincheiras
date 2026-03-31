@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.user;
 
+import io.github.danielcampossantos.exception.ApiError;
 import io.github.danielcampossantos.exception.DefaultErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -92,7 +93,7 @@ public class UserController {
                             description = "Bad Request",
                             responseCode = "400",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = DefaultErrorMessage.class))
+                                    schema = @Schema(oneOf = {ApiError.class, DefaultErrorMessage.class}))
                     )
 
             })

@@ -271,6 +271,7 @@ class UserControllerIT extends IntegrationTestConfig {
 
         JsonAssertions.assertThatJson(expectedResponse)
                 .when(Option.IGNORING_ARRAY_ORDER)
+                .whenIgnoringPaths("timestamp")
                 .isEqualTo(response);
 
     }
@@ -306,6 +307,7 @@ class UserControllerIT extends IntegrationTestConfig {
 
         JsonAssertions.assertThatJson(expectedResponse)
                 .when(Option.IGNORING_ARRAY_ORDER)
+                .whenIgnoringPaths("timestamp")
                 .isEqualTo(response);
     }
 

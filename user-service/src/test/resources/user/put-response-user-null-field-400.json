@@ -1,15 +1,8 @@
 {
+  "timestamp": "2026-03-30T22:38:25.4567271-03:00",
   "status": 400,
-  "message": "Invalid field",
-  "errors": [
-    {
-      "field": "lastName",
-      "message": "The field 'lastName' is required"
-    },
-    {
-      "field": "firstName",
-      "message": "The field 'firstName' is required"
-    },
+  "error": "Bad Request",
+  "messages": [
     {
       "field": "id",
       "message": "The field 'id' is can not be null"
@@ -17,6 +10,15 @@
     {
       "field": "email",
       "message": "The field 'email' is required"
+    },
+    {
+      "field": "lastName",
+      "message": "The field 'lastName' is required"
+    },
+    {
+      "field": "firstName",
+      "message": "The field 'firstName' is required"
     }
-  ]
+  ],
+  "path": "/v1/users"
 }

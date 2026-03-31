@@ -1,1 +1,1 @@
-{"status":400,"message":"Invalid field","errors":[{"field":"description","message":"The field 'description' is required"},{"field":"name","message":"The field 'name' is required"}]}
+{"error":"Bad Request","messages":[{"field":"description","message":"The field 'description' is required"},{"field":"name","message":"The field 'name' is required"}],"path":"/profiles","status":400,"timestamp":"2026-03-30T22:20:30.263109-03:00"}
