@@ -4,6 +4,7 @@ import io.github.danielcampossantos.domain.Anime;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class AnimeController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<AnimeGetResponse>> findAllPaginated(Pageable pageable) {
+    public ResponseEntity<Page<AnimeGetResponse>> findAllPaginated(@ParameterObject Pageable pageable) {
         log.debug("Request to get list of animes paginated");
 
         var pageAnime = service.findAllPaginated(pageable).map(mapper::toAnimeGetResponse);
