@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.user;
 
+import io.github.danielcampossantos.docs.ApiBadResponses;
 import io.github.danielcampossantos.exception.ApiError;
 import io.github.danielcampossantos.exception.DefaultErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -89,15 +90,11 @@ public class UserController {
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = UserPostResponse.class))
                     ),
-                    @ApiResponse(
-                            description = "Bad Request",
-                            responseCode = "400",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(oneOf = {ApiError.class, DefaultErrorMessage.class}))
-                    )
+
+
 
             })
-
+    @ApiBadResponses
     public ResponseEntity<UserPostResponse> save(@RequestBody @Valid UserPostRequest userPostRequest) {
         log.debug("Request to save user '{}'", userPostRequest);
 
