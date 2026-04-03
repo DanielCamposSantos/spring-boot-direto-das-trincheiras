@@ -4,12 +4,14 @@ import io.github.danielcampossantos.domain.User;
 import io.github.danielcampossantos.exception.BadRequestException;
 import io.github.danielcampossantos.exception.EmailAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class UserService {
     private final UserRepository repository;
 
