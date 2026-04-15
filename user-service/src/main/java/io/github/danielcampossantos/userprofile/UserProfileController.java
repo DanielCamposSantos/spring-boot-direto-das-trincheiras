@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.userprofile;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/user-profiles")
 @Log4j2
 @RequiredArgsConstructor
+@SecurityRequirement(name = "basicAuth")
 public class UserProfileController {
 
     private final UserProfileService service;

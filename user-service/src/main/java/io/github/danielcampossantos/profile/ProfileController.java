@@ -1,5 +1,6 @@
 package io.github.danielcampossantos.profile;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/profiles")
 @Tag(name = "Profiles API", description = "Profile related endpoints")
+@SecurityRequirement(name = "basicAuth")
 public class ProfileController {
     private final ProfileService service;
     private final ProfileMapper mapper;
