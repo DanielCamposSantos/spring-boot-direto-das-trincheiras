@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
         type = SecuritySchemeType.HTTP,
         scheme = "basic"
 )
-@OpenAPIDefinition(info = @Info(title = "Devdojo User Service API",version = "v1"))
+@OpenAPIDefinition(info = @Info(title = "Devdojo User Service API", version = "v1"))
 public class OpenApiConfig {
 
 }

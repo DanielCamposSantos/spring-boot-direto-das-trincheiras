@@ -17,7 +17,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 public class SecurityConfig {
-    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**","/csrf"};
+    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/csrf"};
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
@@ -42,7 +42,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http){
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         return http
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(new CookieCsrfTokenRepository())

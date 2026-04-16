@@ -1,7 +1,6 @@
 package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.docs.ApiBadResponses;
-import io.github.danielcampossantos.exception.ApiError;
 import io.github.danielcampossantos.exception.DefaultErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -92,7 +91,6 @@ public class UserController {
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = UserPostResponse.class))
                     ),
-
 
 
             })
