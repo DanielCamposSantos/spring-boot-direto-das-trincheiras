@@ -1,6 +1,6 @@
 package io.github.danielcampossantos.user;
 
-import io.github.danielcampossantos.docs.ApiBadResponses;
+import io.github.danielcampossantos.annotation.ApiBadResponses;
 import io.github.danielcampossantos.exception.DefaultErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
