@@ -35,14 +35,15 @@ public class UserService {
     }
 
     public void update(User userToUpdate) {
-        assertUserExists(userToUpdate.getId());
         assertThatEmailDoesNotExist(userToUpdate.getEmail(), userToUpdate.getId());
+        var savedUser = findByIdOrThrowBadRequestException(userToUpdate.getId());
+        userToUpdate.setRoles(savedUser.getRoles());
+        if (userToUpdate.getPassword() == null) {
+            userToUpdate.setPassword(savedUser.getPassword());
+        }
         repository.save(userToUpdate);
     }
 
-    private void assertUserExists(Long id) {
-        findByIdOrThrowBadRequestException(id);
-    }
 
     private void assertThatEmailDoesNotExist(String email) {
         repository.findByEmail(email).ifPresent(this::throwEmailAlreadyExistsException);
