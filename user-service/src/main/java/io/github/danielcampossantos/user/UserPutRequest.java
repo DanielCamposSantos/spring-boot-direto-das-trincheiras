@@ -18,6 +18,7 @@ public record UserPutRequest(
         @NotBlank(message = "The field 'email' is required")
         @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "The e-mail is not valid")
         @Schema(description = "User's email", example = "pauloalcantara@email.com")
-        String email
+        String email,
+        String password
 ) {
 }
