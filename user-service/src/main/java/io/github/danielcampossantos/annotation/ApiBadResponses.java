@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.docs;
+package io.github.danielcampossantos.annotation;
 
 import io.github.danielcampossantos.exception.ApiError;
 import io.github.danielcampossantos.exception.DefaultErrorMessage;
