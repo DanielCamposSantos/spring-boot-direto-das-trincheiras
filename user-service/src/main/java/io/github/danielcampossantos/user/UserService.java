@@ -14,6 +14,7 @@ import java.util.List;
 @EnableMethodSecurity
 public class UserService {
     private final UserRepository repository;
+    private final UserMapper mapper;
 
     public List<User> findAll(String name) {
         return name == null ? repository.findAll() : repository.findByFirstNameIgnoreCase(name);
@@ -37,11 +38,8 @@ public class UserService {
     public void update(User userToUpdate) {
         assertThatEmailDoesNotExist(userToUpdate.getEmail(), userToUpdate.getId());
         var savedUser = findByIdOrThrowBadRequestException(userToUpdate.getId());
-        userToUpdate.setRoles(savedUser.getRoles());
-        if (userToUpdate.getPassword() == null) {
-            userToUpdate.setPassword(savedUser.getPassword());
-        }
-        repository.save(userToUpdate);
+        var userWithPasswordAndRoles = mapper.userToUserWithPasswordAndRoles(userToUpdate, userToUpdate.getPassword(), savedUser);
+        repository.save(userWithPasswordAndRoles);
     }
 
 
