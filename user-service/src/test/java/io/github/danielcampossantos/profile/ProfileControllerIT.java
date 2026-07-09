@@ -2,6 +2,7 @@ package io.github.danielcampossantos.profile;
 
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.config.IntegrationTestConfig;
+import io.github.danielcampossantos.config.TestRestTemplateConfig;
 import lombok.SneakyThrows;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import net.javacrumbs.jsonunit.core.Option;
@@ -28,7 +29,7 @@ import java.util.stream.Stream;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRestTemplateConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestRestTemplate
 class ProfileControllerIT extends IntegrationTestConfig {
