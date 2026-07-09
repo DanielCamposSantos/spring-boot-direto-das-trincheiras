@@ -13,6 +13,8 @@ public class UserUtils {
                 .firstName("Cezar")
                 .lastName("Augusto")
                 .email("cezaraugusto.santos@gmail.com")
+                .roles("USER")
+                .password("{bcrypt}$2a$10$3Sca0Z83afNzOG4BP5uPzeAiSt5X2hh4tf9hWSxXXw3.4WeSOgaLu")
                 .id(1L)
                 .build();
 
@@ -20,6 +22,8 @@ public class UserUtils {
                 .firstName("Silvio")
                 .lastName("Gustavo")
                 .email("silviogustavo.santos@gmail.com")
+                .roles("USER")
+                .password("{bcrypt}$2a$10$3Sca0Z83afNzOG4BP5uPzeAiSt5X2hh4tf9hWSxXXw3.4WeSOgaLu")
                 .id(2L)
                 .build();
 
@@ -27,6 +31,8 @@ public class UserUtils {
                 .firstName("Savio")
                 .lastName("Machado")
                 .email("saviomachado.santos@gmail.com")
+                .roles("USER")
+                .password("{bcrypt}$2a$10$3Sca0Z83afNzOG4BP5uPzeAiSt5X2hh4tf9hWSxXXw3.4WeSOgaLu")
                 .id(3L)
                 .build();
         return new ArrayList<>(List.of(cezar, silvio, savio));
@@ -38,6 +44,8 @@ public class UserUtils {
                 .firstName("Paulo")
                 .lastName("Alcantara")
                 .email("pauloAlcantara@email.com")
+                .roles("USER")
+                .password("{bcrypt}$2a$10$3Sca0Z83afNzOG4BP5uPzeAiSt5X2hh4tf9hWSxXXw3.4WeSOgaLu")
                 .build();
     }
 
@@ -47,6 +55,8 @@ public class UserUtils {
                 .firstName("Paulo")
                 .lastName("Alcantara")
                 .email("pauloAlcantara@email.com")
+                .roles("USER")
+                .password("{bcrypt}$2a$10$3Sca0Z83afNzOG4BP5uPzeAiSt5X2hh4tf9hWSxXXw3.4WeSOgaLu")
                 .build();
     }
 

@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
@@ -27,6 +29,8 @@ class UserServiceTest {
     @Mock
     private UserRepository repository;
 
+    @Mock
+    private UserMapper mapper;
 
     @InjectMocks
     private UserUtils userUtils;
@@ -164,6 +168,7 @@ class UserServiceTest {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToUpdate));
         BDDMockito.when(repository.findByEmailAndIdNot(email, id)).thenReturn(Optional.empty());
         BDDMockito.when(repository.save(userToUpdate)).thenReturn(userToUpdate);
+        BDDMockito.when(mapper.userToUserWithPasswordAndRoles(any(),any(), any())).thenReturn(userToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
 
