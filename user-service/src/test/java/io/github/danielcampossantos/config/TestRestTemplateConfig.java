@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import static io.github.danielcampossantos.commons.UrlTemplateCommons.BASE_URL;
+
 @TestConfiguration
 @Lazy
 public class TestRestTemplateConfig {
@@ -15,9 +17,12 @@ public class TestRestTemplateConfig {
 
     @Bean
     public TestRestTemplate testRestTemplate() {
-        var uri = new DefaultUriBuilderFactory("http://localhost:" + port);
-        var testRestTemplate = new TestRestTemplate().withBasicAuth("tester@email.com", "test");
+        var uri = new DefaultUriBuilderFactory(BASE_URL + port);
+        var testRestTemplate = new TestRestTemplate()
+                .withBasicAuth("tester@email.com", "test");
         testRestTemplate.setUriTemplateHandler(uri);
         return testRestTemplate;
+
     }
+
 }

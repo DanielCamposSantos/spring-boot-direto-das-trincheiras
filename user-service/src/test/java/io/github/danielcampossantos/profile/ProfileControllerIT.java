@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRestTemplateConfig.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,classes = TestRestTemplateConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestRestTemplate
 class ProfileControllerIT extends IntegrationTestConfig {
@@ -46,7 +46,8 @@ class ProfileControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_two_profiles.sql")
     @Order(1)
     void findAll_ReturnsListWithAllProfiles_WhenArgumentIsNull() {
-        var typeReference = new ParameterizedTypeReference<List<ProfileGetResponse>>() {};
+        var typeReference = new ParameterizedTypeReference<List<ProfileGetResponse>>() {
+        };
         var responseEntity = testRestTemplate.exchange(URL, GET, null, typeReference);
 
         Assertions.assertThat(responseEntity).isNotNull();
