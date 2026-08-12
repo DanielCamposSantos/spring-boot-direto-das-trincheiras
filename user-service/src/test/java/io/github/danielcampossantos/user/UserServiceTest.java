@@ -168,7 +168,7 @@ class UserServiceTest {
         BDDMockito.when(repository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(userToUpdate));
         BDDMockito.when(repository.findByEmailAndIdNot(email, id)).thenReturn(Optional.empty());
         BDDMockito.when(repository.save(userToUpdate)).thenReturn(userToUpdate);
-        BDDMockito.when(mapper.userToUserWithPasswordAndRoles(any(),any(), any())).thenReturn(userToUpdate);
+        BDDMockito.when(mapper.userToUserWithPasswordAndRoles(any(), any(), any())).thenReturn(userToUpdate);
 
         Assertions.assertThatNoException().isThrownBy(() -> service.update(userToUpdate));
 

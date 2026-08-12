@@ -3,6 +3,7 @@ package io.github.danielcampossantos.user;
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.commons.UserUtils;
 import io.github.danielcampossantos.commons.ValidationErrors;
+import io.github.danielcampossantos.config.SecurityConfig;
 import io.github.danielcampossantos.domain.User;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
@@ -15,7 +16,10 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,6 +33,8 @@ import java.util.stream.Stream;
 @WebMvcTest(UserController.class)
 @ComponentScan(basePackages = {"io.github.danielcampossantos.user", "io.github.danielcampossantos.commons"})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Import({SecurityConfig.class})
+@WithMockUser(authorities = "ADMIN")
 class UserControllerTest {
     private static final String URL = "/v1/users";
 
@@ -43,6 +49,9 @@ class UserControllerTest {
 
     @MockitoBean
     private UserRepository repository;
+
+    @MockitoBean
+    private PasswordEncoder passwordEncoder;
 
 
     private static List<User> userList;
