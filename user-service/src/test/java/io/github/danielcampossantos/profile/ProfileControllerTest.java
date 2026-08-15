@@ -2,6 +2,7 @@ package io.github.danielcampossantos.profile;
 
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.commons.ProfileUtils;
+import io.github.danielcampossantos.config.SecurityConfig;
 import io.github.danielcampossantos.domain.Profile;
 import lombok.SneakyThrows;
 import org.assertj.core.api.Assertions;
@@ -15,10 +16,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -33,6 +36,8 @@ import java.util.stream.Stream;
 @WebMvcTest(controllers = ProfileController.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ComponentScan(basePackages = {"io.github.danielcampossantos.profile", "io.github.danielcampossantos.commons"})
+@Import(SecurityConfig.class)
+@WithMockUser
 class ProfileControllerTest {
     private static final String URL = "/profiles";
 
