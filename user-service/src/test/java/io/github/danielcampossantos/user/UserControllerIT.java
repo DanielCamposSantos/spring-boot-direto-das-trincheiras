@@ -2,8 +2,10 @@ package io.github.danielcampossantos.user;
 
 import io.github.danielcampossantos.commons.FileUtils;
 import io.github.danielcampossantos.config.IntegrationTestConfig;
+import io.github.danielcampossantos.config.RestAssuredConfig;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import net.javacrumbs.jsonunit.core.Option;
 import org.hamcrest.Matchers;
@@ -12,14 +14,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.stream.Stream;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = RestAssuredConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserControllerIT extends IntegrationTestConfig {
     private static final String URL = "/v1/users";
@@ -27,13 +29,18 @@ class UserControllerIT extends IntegrationTestConfig {
     @Autowired
     private FileUtils fileUtils;
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    @Qualifier(value = "requestSpecificationAdminUser")
+    private RequestSpecification requestSpecificationAdminUser;
+
+    @Autowired
+    @Qualifier(value = "requestSpecificationRegularUser")
+    private RequestSpecification requestSpecificationRegularUser;
+
 
     @BeforeEach
     void setUrl() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
+        RestAssured.requestSpecification = requestSpecificationRegularUser;
     }
 
 
@@ -43,6 +50,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAll_ReturnsListWithAllUsers_WhenNameIsNull() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var response = fileUtils.readResourceFile("user/get-user-null-name-200.json");
 
         RestAssured.given()
@@ -63,6 +72,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAll_ReturnsListWithUserFoundByName_WhenSuccessful() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var response = fileUtils.readResourceFile("user/get-user-cezar-name-200.json");
 
         RestAssured.given()
@@ -84,6 +95,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAll_ReturnsEmptyList_WhenUserNotFound() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var response = fileUtils.readResourceFile("user/get-user-x-name-200.json");
 
         RestAssured.given()
@@ -106,6 +119,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findById_ReturnsUserById_WhenSuccessful() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var response = fileUtils.readResourceFile("user/get-user-by-id-200.json");
         var id = 1L;
 
@@ -124,7 +139,11 @@ class UserControllerIT extends IntegrationTestConfig {
     @Test
     @DisplayName("GET /v1/users/99 throws BadRequestException")
     @Order(5)
+    @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findById_ThrowsBadRequestException_WhenUserNotFoundById() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var response = fileUtils.readResourceFile("user/get-user-by-id-400.json");
         var id = 99L;
 
@@ -176,6 +195,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void delete_RemovesUser_WhenSuccessful() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var id = 1L;
 
         RestAssured.given()
@@ -193,7 +214,11 @@ class UserControllerIT extends IntegrationTestConfig {
     @Test
     @DisplayName("DELETE /v1/users/99 throws BadRequestException")
     @Order(8)
+    @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void delete_ThrowsBadRequestException_WhenUserNotFound() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var expectedResponse = fileUtils.readResourceFile("user/delete-user-by-id-400.json");
 
         var id = 99L;
@@ -214,6 +239,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void update_UpdatesUser_WhenSuccessful() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var request = fileUtils.readResourceFile("user/put-request-user-200.json");
 
         RestAssured.given()
@@ -234,6 +261,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @Sql(value = "/sql/init_three_user.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean_users.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void update_ThrowsBadRequestException_WhenUserNotFound() {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var request = fileUtils.readResourceFile("user/put-request-user-404.json");
         var expectedResponse = fileUtils.readResourceFile("user/put-user-by-id-400.json");
 
@@ -255,6 +284,8 @@ class UserControllerIT extends IntegrationTestConfig {
     @DisplayName("POST /v1/users returns bad request when fields are invalid")
     @Order(11)
     void save_ReturnsBadRequest_WhenFieldsAreInvalid(String requestFile, String responseFile) {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var request = fileUtils.readResourceFile("user/%s".formatted(requestFile));
         var expectedResponse = fileUtils.readResourceFile("user/%s".formatted(responseFile));
 
@@ -285,12 +316,13 @@ class UserControllerIT extends IntegrationTestConfig {
         );
     }
 
-    //
     @ParameterizedTest
     @MethodSource("putUserBadRequestSource")
     @DisplayName("PUT /v1/users throws BadRequestException when fields are invalid")
     @Order(10)
     void update_ReturnsBadRequest_WhenFieldsAreInvalid(String requestFile, String responseFile) {
+        RestAssured.requestSpecification = requestSpecificationAdminUser;
+
         var request = fileUtils.readResourceFile("user/%s".formatted(requestFile));
         var expectedResponse = fileUtils.readResourceFile("user/%s".formatted(responseFile));
 

@@ -1,8 +1,16 @@
 {
-  "timestamp": "2026-03-30T22:40:00.0759845-03:00",
+  "timestamp": "2026-08-15T14:02:02.818329-03:00",
   "status": 400,
   "error": "Bad Request",
   "messages": [
+    {
+      "field": "email",
+      "message": "The field 'email' is required"
+    },
+    {
+      "field": "password",
+      "message": "The field 'password is required'"
+    },
     {
       "field": "email",
       "message": "The e-mail is not valid"
@@ -10,10 +18,6 @@
     {
       "field": "firstName",
       "message": "The field 'firstName' is required"
-    },
-    {
-      "field": "email",
-      "message": "The field 'email' is required"
     },
     {
       "field": "lastName",

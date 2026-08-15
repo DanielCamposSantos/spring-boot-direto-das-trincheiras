@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.commons;
+package io.github.danielcampossantos.config;
 
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
@@ -19,6 +19,14 @@ public class RestAssuredConfig {
     public RequestSpecification requestSpecificationRegularUser() {
         return RestAssured.given()
                 .baseUri(BASE_URL + port)
-                .auth().preemptive().basic(REGULAR_USER, PASSWORD);
+                .auth().basic(REGULAR_USERNAME, PASSWORD);
     }
+
+    @Bean(name = "requestSpecificationAdminUser")
+    public RequestSpecification requestSpecificationAdminUser() {
+        return RestAssured.given()
+                .baseUri(BASE_URL + port)
+                .auth().basic(ADMIN_USERNAME, PASSWORD);
+    }
+
 }

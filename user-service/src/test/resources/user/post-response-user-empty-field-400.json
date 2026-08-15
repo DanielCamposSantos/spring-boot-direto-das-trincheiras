@@ -18,6 +18,10 @@
     {
       "field": "email",
       "message": "The e-mail is not valid"
+    },
+    {
+      "field": "password",
+      "message": "The field 'password is required'"
     }
   ],
   "path": "/v1/users"
