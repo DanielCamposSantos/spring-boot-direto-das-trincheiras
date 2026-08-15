@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
-import static io.github.danielcampossantos.commons.UrlTemplateCommons.BASE_URL;
+import static io.github.danielcampossantos.commons.Constants.BASE_URL;
 
 @TestConfiguration
 @Lazy
