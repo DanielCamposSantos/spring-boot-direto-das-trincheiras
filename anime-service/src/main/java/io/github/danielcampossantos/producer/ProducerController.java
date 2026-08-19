@@ -1,6 +1,11 @@
 package io.github.danielcampossantos.producer;
 
 
+import io.github.danielcampossantos.api.ProducerControllerApi;
+import io.github.danielcampossantos.dto.ProducerGetResponse;
+import io.github.danielcampossantos.dto.ProducerPostRequest;
+import io.github.danielcampossantos.dto.ProducerPostResponse;
+import io.github.danielcampossantos.dto.ProducerPutRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -14,14 +19,14 @@ import java.util.List;
 @RestController
 @RequestMapping("producers")
 @RequiredArgsConstructor
-public class ProducerController {
+public class ProducerController implements ProducerControllerApi {
 
     private final ProducerMapper mapper;
     private final ProducerService service;
 
 
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>> findAll(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<ProducerGetResponse>> findAllProducers(@RequestParam(required = false) String name) {
         log.debug("Request to get list of producers by name '{}'", name);
 
         var producers = service.findAll(name);
@@ -31,7 +36,7 @@ public class ProducerController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<ProducerGetResponse> findById(@PathVariable long id) {
+    public ResponseEntity<ProducerGetResponse> findProducerById(@PathVariable Long id) {
         log.debug("Request to get producer by id '{}'", id);
         var producerGetResponse = mapper.toProducerGetResponse(service.findByIdOrThrowBadRequest(id));
         return ResponseEntity.ok(producerGetResponse);
@@ -39,7 +44,7 @@ public class ProducerController {
 
 
     @PostMapping
-    public ResponseEntity<ProducerPostResponse> save(@RequestBody @Valid ProducerPostRequest producerPostRequest) {
+    public ResponseEntity<ProducerPostResponse> saveProducer(@RequestBody @Valid ProducerPostRequest producerPostRequest) {
         log.debug("Saving producer '{}'", producerPostRequest);
 
         var producerToSave = mapper.toProducer(producerPostRequest);
@@ -52,7 +57,7 @@ public class ProducerController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> deleteProducer(@PathVariable Long id) {
         log.debug("Request to delete producer by id '{}'", id);
 
         service.delete(id);
@@ -62,7 +67,7 @@ public class ProducerController {
 
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid ProducerPutRequest request) {
+    public ResponseEntity<Void> updateProducer(@RequestBody @Valid ProducerPutRequest request) {
         log.debug("Request to update producer '{}'", request);
 
         var producerToUpdate = mapper.toProducer(request);

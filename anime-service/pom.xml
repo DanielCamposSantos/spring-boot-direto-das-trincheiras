@@ -6,11 +6,20 @@
         <groupId>io.github.danielcampossantos</groupId>
         <artifactId>parent-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <artifactId>anime-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>anime-service</name>
+    <properties>
+        <anime-api-client.version>1.0-SNAPSHOT</anime-api-client.version>
+        <jib-maven-plugin.version>3.5.2</jib-maven-plugin.version>
+        <jib-maven-plugin.image>eclipse-temurin:25-jre</jib-maven-plugin.image>
+        <docker.repo.url>danielcampossantos</docker.repo.url>
+        <docker.repo.project>${artifactId}</docker.repo.project>
+        <docker.image.name>${docker.repo.url}/${docker.repo.project}</docker.image.name>
+
+    </properties>
 
     <dependencies>
         <dependency>
@@ -42,9 +51,38 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.danielcampossantos</groupId>
+            <artifactId>anime-api-client</artifactId>
+            <version>${anime-api-client.version}</version>
+        </dependency>
+
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version> <!-- Use the latest version -->
+                <configuration>
+                    <from>
+                        <image>${jib-maven-plugin.image}</image>
+                    </from>
+                    <to>
+                        <image>${docker.image.name}</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <format>OCI</format>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

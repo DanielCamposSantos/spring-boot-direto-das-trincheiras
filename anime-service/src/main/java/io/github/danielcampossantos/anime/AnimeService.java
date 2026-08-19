@@ -30,7 +30,7 @@ public class AnimeService {
         return repository.save(anime);
     }
 
-    public void delete(long id) {
+    public void delete(Long id) {
         var animeToDelete = findByIdOrThrowBadRequestException(id);
         repository.delete(animeToDelete);
     }
@@ -41,7 +41,7 @@ public class AnimeService {
         repository.save(animeToBeUpdated);
     }
 
-    public void assertAnimeExists(long id) {
+    public void assertAnimeExists(Long id) {
         findByIdOrThrowBadRequestException(id);
     }
 
