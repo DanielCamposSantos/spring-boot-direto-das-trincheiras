@@ -1,8 +1,10 @@
 package io.github.danielcampossantos.anime;
 
 import io.github.danielcampossantos.domain.Anime;
+import io.github.danielcampossantos.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface AnimeMapper {
     AnimePostResponse toAnimePostResponse(Anime anime);
 
 
+    PageAnimeGetResponse toPageAnimeGetResponse(Page<Anime> page);
 }

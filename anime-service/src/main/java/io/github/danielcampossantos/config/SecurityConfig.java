@@ -1,6 +1,7 @@
 package io.github.danielcampossantos.config;
 
 import org.jspecify.annotations.NonNull;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    private static final String[] WHITE_LIST = {"/swagger-ui.html","/v3/api-docs/**","/swagger-ui/**"};
+    private static final String[] WHITE_LIST = {"/swagger-ui.html", "/v3/**", "/swagger-ui/**"};
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
@@ -32,6 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITE_LIST).permitAll()
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                         .requestMatchers("/animes/**").hasRole("USER")
                         .requestMatchers("/producers/**").hasRole("USER")
                         .anyRequest().authenticated())

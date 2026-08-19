@@ -1,11 +1,13 @@
 package io.github.danielcampossantos.anime;
 
+
+import io.github.danielcampossantos.api.AnimeControllerApi;
 import io.github.danielcampossantos.domain.Anime;
+import io.github.danielcampossantos.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +19,15 @@ import java.util.List;
 @RequestMapping("animes")
 @Log4j2
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 
-public class AnimeController {
+public class AnimeController implements AnimeControllerApi {
     private final AnimeMapper mapper;
 
     private final AnimeService service;
 
+
     @GetMapping
-    public ResponseEntity<List<AnimeGetResponse>> findAll(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<AnimeGetResponse>> findAllAnimes(@RequestParam(required = false) String name) {
         log.debug("Request to get list of animes by name '{}'", name);
 
         var animes = service.findAll(name);
@@ -37,17 +39,20 @@ public class AnimeController {
     }
 
     @GetMapping("/paginated")
-    public ResponseEntity<Page<AnimeGetResponse>> findAllPaginated(@ParameterObject Pageable pageable) {
+    public ResponseEntity<PageAnimeGetResponse> findAllAnimesPaginated(@ParameterObject Pageable pageable) {
         log.debug("Request to get list of animes paginated");
 
-        var pageAnime = service.findAllPaginated(pageable).map(mapper::toAnimeGetResponse);
+        var jpaAnimePageGetResponse = service.findAllPaginated(pageable);
 
-        return ResponseEntity.ok(pageAnime);
+        var pageAnimeGetResponse = mapper.toPageAnimeGetResponse(jpaAnimePageGetResponse);
+
+        return ResponseEntity.ok(pageAnimeGetResponse);
+
 
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<AnimeGetResponse> findById(@PathVariable long id) {
+    public ResponseEntity<AnimeGetResponse> findAnimeById(@PathVariable Long id) {
         log.debug("Request to find anime by id '{}'", id);
 
         var anime = service.findByIdOrThrowBadRequestException(id);
@@ -58,7 +63,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimePostResponse> save(@RequestBody @Valid AnimePostRequest animePostRequest) {
+    public ResponseEntity<AnimePostResponse> saveAnime(@RequestBody @Valid AnimePostRequest animePostRequest) {
         log.debug("Request to create anime '{}'", animePostRequest);
         var anime = mapper.toAnime(animePostRequest);
 
@@ -70,7 +75,7 @@ public class AnimeController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> deleteAnime(@PathVariable Long id) {
         log.debug("Request to delete anime by id '{}'", id);
 
         service.delete(id);
@@ -79,7 +84,7 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid AnimePutRequest request) {
+    public ResponseEntity<Void> updateAnime(@RequestBody @Valid AnimePutRequest request) {
         log.debug("Request to update anime by id '{}'", request);
 
         var animeUpdated = mapper.toAnime(request);

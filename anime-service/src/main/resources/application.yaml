@@ -6,12 +6,6 @@ spring:
   threads:
     virtual:
       enabled: true
-  mvc:
-    apiversion:
-      use:
-        header: X-API-Version
-      default: 1
-      required: false
   datasource:
     url: jdbc:mysql://localhost:3306/anime-service?useTimeZone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: ${ENV_ROOT_USER}
@@ -26,4 +20,12 @@ server:
   tomcat:
     threads:
       max: 20
+
+management:
+  server:
+    port: 8989
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
