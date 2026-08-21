@@ -1,0 +1,5 @@
+INSERT INTO user_service.profile (id, description, name) VALUES (1, 'Responsable for testing the system', 'TESTER');
+INSERT INTO user_service.user (id, email, first_name, last_name, password, roles) VALUES (1, 'miguelcampos.santos1603@gmail.com', 'Miguel', 'Campos', '{bcrypt}$2a$10$71gfzd/56AkXoDlSAz1fwunBBX8e0YRFoI9QmlNMR/TgVVEkxhs/y', 'USER');
+INSERT INTO user_service.user (id, email, first_name, last_name, password, roles) VALUES (2, 'danielcampos.santos1603@gmail.com', 'Daniel', 'Campos', '{bcrypt}$2a$10$WjdPl/AKyG.I/RCyLvzc4ONWKcHXbHalJsY.zkMQfEbiuBRggQfZq', 'ADMIN');
+INSERT INTO user_service.user (id, email, first_name, last_name, password, roles) VALUES (4, 'test@email.com', 'test', 'test', '{bcrypt}$2a$10$xmzLlCHTWNMsWcCwZsy9Q.1TdosDcNBpLzJCo0V7LDGMehC8vfpoa', 'ADMIN');
+INSERT INTO user_service.user (id, email, first_name, last_name, password, roles) VALUES (5, 'admin@email.com.br', 'Daniel', 'Campos', '{bcrypt}$2a$10$BzAsADnigQItTJo71gEMMuljhmrubSj6gZKpQEcBhAjrPRli5GbYC', 'ADMIN');
