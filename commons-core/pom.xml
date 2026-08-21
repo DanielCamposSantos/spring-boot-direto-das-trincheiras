@@ -6,11 +6,10 @@
     <parent>
         <groupId>io.github.danielcampossantos</groupId>
         <artifactId>parent-project</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>commons-core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>commons-core</name>
     <description>Tratamento personalizado de excessões</description>
 
