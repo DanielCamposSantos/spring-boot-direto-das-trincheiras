@@ -9,3 +9,7 @@ spring:
       ddl-auto: none
 
 
+
+brasil-api:
+  base-url: http://localhost:${wiremock.server.port:5000}/api
+  cep-uri: /cep/v1/{cep}

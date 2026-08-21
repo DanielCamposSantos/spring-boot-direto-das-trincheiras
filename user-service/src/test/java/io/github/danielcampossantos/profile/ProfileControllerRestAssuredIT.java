@@ -1,8 +1,8 @@
 package io.github.danielcampossantos.profile;
 
 import io.github.danielcampossantos.commons.FileUtils;
-import io.github.danielcampossantos.config.RestAssuredConfig;
 import io.github.danielcampossantos.config.IntegrationTestConfig;
+import io.github.danielcampossantos.config.RestAssuredConfig;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
