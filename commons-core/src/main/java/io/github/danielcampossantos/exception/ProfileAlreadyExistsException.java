@@ -5,7 +5,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class ProfileAlreadyExistsException extends ResponseStatusException {
 
-    public ProfileAlreadyExistsException(String message) {
-        super(HttpStatus.BAD_REQUEST, message);
-    }
+  public ProfileAlreadyExistsException(String message) {
+    super(HttpStatus.BAD_REQUEST, message);
+  }
 }

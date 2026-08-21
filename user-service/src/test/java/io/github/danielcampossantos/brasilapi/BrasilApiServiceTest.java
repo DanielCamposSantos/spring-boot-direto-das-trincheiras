@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.brasil_api;
+package io.github.danielcampossantos.brasilapi;
 
 import io.github.danielcampossantos.commons.CepUtils;
 import io.github.danielcampossantos.config.BrasilApiConfigurationProperties;

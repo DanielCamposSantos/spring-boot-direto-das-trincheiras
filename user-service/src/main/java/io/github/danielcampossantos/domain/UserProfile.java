@@ -1,7 +1,18 @@
 package io.github.danielcampossantos.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.With;
 
 @With
 @Data
@@ -11,15 +22,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedEntityGraph(name = "UserProfile.fullDetails",
-        attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("profile")})
+    attributeNodes = {@NamedAttributeNode("user"), @NamedAttributeNode("profile")})
 
 public class UserProfile {
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(optional = false)
-    private User user;
-    @ManyToOne(optional = false)
-    private Profile profile;
+
+  @EqualsAndHashCode.Include
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @ManyToOne(optional = false)
+  private User user;
+  @ManyToOne(optional = false)
+  private Profile profile;
 }

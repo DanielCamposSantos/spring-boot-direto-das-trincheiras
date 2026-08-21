@@ -1,18 +1,18 @@
 package io.github.danielcampossantos.profile;
 
 import io.github.danielcampossantos.domain.Profile;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-import java.util.List;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProfileMapper {
-    ProfileGetResponse toProfileGetResponse(Profile profile);
 
-    List<ProfileGetResponse> toProfileGetResponseList(List<Profile> profiles);
+  ProfileGetResponse toProfileGetResponse(Profile profile);
 
-    Profile toProfile(ProfilePostRequest profilePostRequest);
+  List<ProfileGetResponse> toProfileGetResponseList(List<Profile> profiles);
 
-    ProfilePostResponse toProfilePostResponse(Profile profile);
+  Profile toProfile(ProfilePostRequest profilePostRequest);
+
+  ProfilePostResponse toProfilePostResponse(Profile profile);
 }

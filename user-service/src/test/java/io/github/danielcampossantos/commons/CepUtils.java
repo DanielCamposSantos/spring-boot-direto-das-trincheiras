@@ -1,8 +1,8 @@
 package io.github.danielcampossantos.commons;
 
-import io.github.danielcampossantos.brasil_api.CepErrorResponse;
-import io.github.danielcampossantos.brasil_api.CepGetResponse;
-import io.github.danielcampossantos.brasil_api.CepInnerErrors;
+import io.github.danielcampossantos.brasilapi.CepErrorResponse;
+import io.github.danielcampossantos.brasilapi.CepGetResponse;
+import io.github.danielcampossantos.brasilapi.CepInnerErrors;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

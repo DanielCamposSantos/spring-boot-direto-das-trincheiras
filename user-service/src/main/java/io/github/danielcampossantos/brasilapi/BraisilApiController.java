@@ -1,4 +1,4 @@
-package io.github.danielcampossantos.brasil_api;
+package io.github.danielcampossantos.brasilapi;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @SecurityRequirement(name = "basicAuth")
 public class BraisilApiController {
-    private final BrasilApiService brasilApiService;
 
-    @GetMapping("/{cep}")
-    public ResponseEntity<CepGetResponse> findCep(@PathVariable String cep) {
-        return ResponseEntity.ok(brasilApiService.findCep(cep));
-    }
+  private final BrasilApiService brasilApiService;
+
+  @GetMapping("/{cep}")
+  public ResponseEntity<CepGetResponse> findCep(@PathVariable String cep) {
+    return ResponseEntity.ok(brasilApiService.findCep(cep));
+  }
 }

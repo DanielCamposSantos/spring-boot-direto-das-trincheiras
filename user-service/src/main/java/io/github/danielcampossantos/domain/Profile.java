@@ -1,7 +1,16 @@
 package io.github.danielcampossantos.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.With;
 
 @Data
 @Builder
@@ -11,14 +20,15 @@ import lombok.*;
 @NoArgsConstructor
 @With
 public class Profile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Long id;
-    @Column(nullable = false, unique = true)
-    private String name;
-    @Column(nullable = false)
-    private String description;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  private Long id;
+  @Column(nullable = false, unique = true)
+  private String name;
+  @Column(nullable = false)
+  private String description;
 
 
 }

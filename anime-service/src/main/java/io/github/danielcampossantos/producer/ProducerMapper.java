@@ -5,20 +5,20 @@ import io.github.danielcampossantos.dto.ProducerGetResponse;
 import io.github.danielcampossantos.dto.ProducerPostRequest;
 import io.github.danielcampossantos.dto.ProducerPostResponse;
 import io.github.danielcampossantos.dto.ProducerPutRequest;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-import java.util.List;
-
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProducerMapper {
-    Producer toProducer(ProducerPostRequest postRequest);
 
-    Producer toProducer(ProducerPutRequest request);
+  Producer toProducer(ProducerPostRequest postRequest);
 
-    ProducerGetResponse toProducerGetResponse(Producer producer);
+  Producer toProducer(ProducerPutRequest request);
 
-    List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producer);
+  ProducerGetResponse toProducerGetResponse(Producer producer);
 
-    ProducerPostResponse toProducerPostResponse(Producer producer);
+  List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producer);
+
+  ProducerPostResponse toProducerPostResponse(Producer producer);
 }

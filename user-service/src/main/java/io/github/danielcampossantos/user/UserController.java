@@ -10,14 +10,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("v1/users")
@@ -26,105 +33,106 @@ import java.util.List;
 @Tag(name = "User API", description = "User related endpoints")
 @SecurityRequirement(name = "basicAuth")
 public class UserController {
-    private final UserMapper mapper;
 
-    private final UserService service;
+  private final UserMapper mapper;
 
-
-    @GetMapping
-    @Operation(summary = "Get all users", description = "Get all users available in the system",
-            responses = @ApiResponse(
-                    description = "List with all users",
-                    responseCode = "200",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = UserGetResponse.class)))
-            ))
-
-    public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
-        log.debug("Request to return user by first name '{}'", name);
-
-        var users = service.findAll(name);
-
-        var response = mapper.toUserGetResponseList(users);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(summary = "Get user by id",
-            responses = {
-                    @ApiResponse(
-                            description = "Get user by its id",
-                            responseCode = "200",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = UserGetResponse.class))
-                    ),
-                    @ApiResponse(
-                            description = "Bad Request",
-                            responseCode = "400",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = DefaultErrorMessage.class))
-                    )
-            }
-    )
-    @GetMapping("/{id}")
-    public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
-        log.debug("Request to return user by first id '{}'", id);
-
-        var user = service.findByIdOrThrowBadRequestException(id);
-
-        var response = mapper.toUserGetResponse(user);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping
-    @Operation(summary = "Saves a new user",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "User to be saved",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = UserPostRequest.class))),
-
-            responses = {
-                    @ApiResponse(
-                            description = "User is saved",
-                            responseCode = "201",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = UserPostResponse.class))
-                    ),
+  private final UserService service;
 
 
-            })
-    @ApiBadResponses
-    public ResponseEntity<UserPostResponse> save(@RequestBody @Valid UserPostRequest userPostRequest) {
-        log.debug("Request to save user '{}'", userPostRequest);
+  @GetMapping
+  @Operation(summary = "Get all users", description = "Get all users available in the system",
+      responses = @ApiResponse(
+          description = "List with all users",
+          responseCode = "200",
+          content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+              array = @ArraySchema(schema = @Schema(implementation = UserGetResponse.class)))
+      ))
 
-        var user = mapper.toUser(userPostRequest);
+  public ResponseEntity<List<UserGetResponse>> findAll(@RequestParam(required = false) String name) {
+    log.debug("Request to return user by first name '{}'", name);
 
-        var savedUser = service.save(user);
+    var users = service.findAll(name);
 
-        var response = mapper.toUserPostResponse(savedUser);
+    var response = mapper.toUserGetResponseList(users);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    return ResponseEntity.ok(response);
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        log.debug("Request to delete user by id '{}'", id);
+  @Operation(summary = "Get user by id",
+      responses = {
+          @ApiResponse(
+              description = "Get user by its id",
+              responseCode = "200",
+              content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = UserGetResponse.class))
+          ),
+          @ApiResponse(
+              description = "Bad Request",
+              responseCode = "400",
+              content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = DefaultErrorMessage.class))
+          )
+      }
+  )
+  @GetMapping("/{id}")
+  public ResponseEntity<UserGetResponse> findById(@PathVariable Long id) {
+    log.debug("Request to return user by first id '{}'", id);
 
-        service.delete(id);
+    var user = service.findByIdOrThrowBadRequestException(id);
 
-        return ResponseEntity.noContent().build();
-    }
+    var response = mapper.toUserGetResponse(user);
 
-    @PutMapping
-    public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequest request) {
-        log.debug("Request to update user '{}'", request);
+    return ResponseEntity.ok(response);
+  }
 
-        var userUpdated = mapper.toUser(request);
+  @PostMapping
+  @Operation(summary = "Saves a new user",
+      requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+          description = "User to be saved",
+          content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+              schema = @Schema(implementation = UserPostRequest.class))),
 
-        service.update(userUpdated);
+      responses = {
+          @ApiResponse(
+              description = "User is saved",
+              responseCode = "201",
+              content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                  schema = @Schema(implementation = UserPostResponse.class))
+          ),
 
-        return ResponseEntity.noContent().build();
-    }
+
+      })
+  @ApiBadResponses
+  public ResponseEntity<UserPostResponse> save(@RequestBody @Valid UserPostRequest userPostRequest) {
+    log.debug("Request to save user '{}'", userPostRequest);
+
+    var user = mapper.toUser(userPostRequest);
+
+    var savedUser = service.save(user);
+
+    var response = mapper.toUserPostResponse(savedUser);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    log.debug("Request to delete user by id '{}'", id);
+
+    service.delete(id);
+
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping
+  public ResponseEntity<Void> update(@RequestBody @Valid UserPutRequest request) {
+    log.debug("Request to update user '{}'", request);
+
+    var userUpdated = mapper.toUser(request);
+
+    service.update(userUpdated);
+
+    return ResponseEntity.noContent().build();
+  }
 
 }
